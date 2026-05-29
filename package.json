@@ -1,0 +1,25 @@
+{
+  "name": "elplay",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:mobile": "turbo run dev --filter=mobile",
+    "dev:web": "turbo run dev --filter=web",
+    "build:mobile": "turbo run build --filter=mobile",
+    "build:web": "turbo run build --filter=web",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "supabase gen types typescript --local > packages/db/types.ts",
+    "db:migrate": "supabase db push",
+    "db:seed": "supabase db reset"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

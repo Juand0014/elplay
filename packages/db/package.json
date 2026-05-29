@@ -1,0 +1,16 @@
+{
+  "name": "@elplay/db",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./types.ts",
+  "exports": {
+    ".": "./types.ts",
+    "./types": "./types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

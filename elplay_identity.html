@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0f; color: white; font-family: 'Inter', sans-serif; padding: 40px; }
+  .section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #ff4d00; margin-bottom: 16px; font-weight: 600; }
+  .logo-hero { background: linear-gradient(135deg, #0f0f1a, #1a0a00); border: 1px solid #2a2a3a; border-radius: 20px; padding: 60px 40px; text-align: center; margin-bottom: 32px; }
+  .logo-wordmark { display: flex; align-items: baseline; justify-content: center; }
+  .logo-el { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: #fff; letter-spacing: 2px; }
+  .logo-play { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: #ff4d00; letter-spacing: 2px; }
+  .logo-tagline { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #555; margin-top: 10px; }
+  .variations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .var-card { border-radius: 16px; padding: 32px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.08); }
+  .var-dark { background: #0f0f1a; }
+  .var-orange { background: linear-gradient(135deg, #ff4d00, #ff8c00); }
+  .var-light { background: #f0f0f0; }
+  .var-wm { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 2px; }
+  .var-dark .var-wm { color: white; } .var-dark .var-wm span { color: #ff4d00; }
+  .var-orange .var-wm { color: white; } .var-orange .var-wm span { color: rgba(255,255,255,0.7); }
+  .var-light .var-wm { color: #111; } .var-light .var-wm span { color: #ff4d00; }
+  .var-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; opacity: 0.5; font-weight: 600; }
+  .var-dark .var-label, .var-orange .var-label { color: white; }
+  .var-light .var-label { color: #333; }
+  .colors-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .color-chip { flex: 1; min-width: 100px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+  .swatch { height: 64px; }
+  .cinfo { background: #111118; padding: 10px 12px; }
+  .cname { font-size: 12px; font-weight: 700; color: white; }
+  .chex { font-size: 11px; color: #555; font-family: monospace; }
+  .crole { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-top: 2px; font-weight: 600; }
+  .typo-box { background: #0f0f1a; border: 1px solid #2a2a3a; border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+  .trow { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #1a1a2a; }
+  .trow:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .tmeta { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 6px; font-weight: 600; }
+  .tdisplay { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: white; line-height: 1; }
+  .theading { font-size: 26px; font-weight: 900; color: white; }
+  .tbody { font-size: 15px; color: #aaa; line-height: 1.6; }
+  .taccent { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff4d00; }
+  .taglines-box { background: linear-gradient(135deg, #1a0800, #0f0f1a); border: 1px solid rgba(255,77,0,0.2); border-radius: 16px; padding: 32px; }
+  .tg-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
+  .tg-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4d00; flex-shrink: 0; }
+  .tg-text { font-size: 15px; color: #ccc; }
+  .tg-text strong { color: white; font-weight: 700; }
+  .mb32 { margin-bottom: 32px; }
+</style>
+</head>
+<body>
+
+<div style="max-width:900px;margin:0 auto;">
+
+  <div class="section-label">01 — Logo Principal</div>
+  <div class="logo-hero">
+    <div style="margin-bottom:16px;">
+      <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 20px rgba(255,77,0,0.7))">
+        <polygon points="40,4 76,40 40,76 4,40" fill="none" stroke="#ff4d00" stroke-width="2.5"/>
+        <polygon points="40,20 60,40 40,60 20,40" fill="rgba(255,77,0,0.12)" stroke="#ff8c00" stroke-width="1.5"/>
+        <rect x="37" y="1" width="6" height="6" rx="1" fill="#ff4d00" transform="rotate(45 40 4)"/>
+        <rect x="37" y="73" width="6" height="6" rx="1" fill="#ff4d00" transform="rotate(45 40 76)"/>
+        <rect x="1" y="37" width="6" height="6" rx="1" fill="#ff8c00" transform="rotate(45 4 40)"/>
+        <rect x="73" y="37" width="6" height="6" rx="1" fill="#ff8c00" transform="rotate(45 76 40)"/>
+        <circle cx="40" cy="40" r="4" fill="#ff4d00"/>
+      </svg>
+    </div>
+    <div class="logo-wordmark">
+      <span class="logo-el">EL</span><span class="logo-play">PLAY</span>
+    </div>
+    <div class="logo-tagline">Liga · Softball · Stats</div>
+  </div>
+
+  <div class="section-label">02 — Variaciones</div>
+  <div class="variations-grid mb32">
+    <div class="var-card var-dark">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none" style="margin-bottom:10px"><polygon points="40,4 76,40 40,76 4,40" fill="none" stroke="#ff4d00" stroke-width="3"/><circle cx="40" cy="40" r="5" fill="#ff4d00"/></svg>
+      <div class="var-wm">EL<span>PLAY</span></div>
+      <div class="var-label">Oscuro</div>
+    </div>
+    <div class="var-card var-orange">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none" style="margin-bottom:10px"><polygon points="40,4 76,40 40,76 4,40" fill="none" stroke="white" stroke-width="3"/><circle cx="40" cy="40" r="5" fill="white"/></svg>
+      <div class="var-wm"><span>EL</span>PLAY</div>
+      <div class="var-label">Fuego</div>
+    </div>
+    <div class="var-card var-light">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none" style="margin-bottom:10px"><polygon points="40,4 76,40 40,76 4,40" fill="none" stroke="#ff4d00" stroke-width="3"/><circle cx="40" cy="40" r="5" fill="#ff4d00"/></svg>
+      <div class="var-wm">EL<span>PLAY</span></div>
+      <div class="var-label">Claro</div>
+    </div>
+  </div>
+
+  <div class="section-label">03 — Paleta de Colores</div>
+  <div class="colors-row">
+    <div class="color-chip"><div class="swatch" style="background:#ff4d00;"></div><div class="cinfo"><div class="cname">Fuego</div><div class="chex">#FF4D00</div><div class="crole">Primario</div></div></div>
+    <div class="color-chip"><div class="swatch" style="background:#ff8c00;"></div><div class="cinfo"><div class="cname">Naranja</div><div class="chex">#FF8C00</div><div class="crole">Acento</div></div></div>
+    <div class="color-chip"><div class="swatch" style="background:#0a0a0f;border-bottom:1px solid #2a2a3a;"></div><div class="cinfo"><div class="cname">Noche</div><div class="chex">#0A0A0F</div><div class="crole">Fondo</div></div></div>
+    <div class="color-chip"><div class="swatch" style="background:#1a1a2e;"></div><div class="cinfo"><div class="cname">Campo</div><div class="chex">#1A1A2E</div><div class="crole">Superficie</div></div></div>
+    <div class="color-chip"><div class="swatch" style="background:#22c55e;"></div><div class="cinfo"><div class="cname">Verde</div><div class="chex">#22C55E</div><div class="crole">Carreras</div></div></div>
+  </div>
+
+  <div class="section-label">04 — Tipografía</div>
+  <div class="typo-box">
+    <div class="trow"><div class="tmeta">Display — Bebas Neue</div><div class="tdisplay">ElPlay Liga 2025</div></div>
+    <div class="trow"><div class="tmeta">Heading — Inter Black 900</div><div class="theading">Temporada Regular · RD</div></div>
+    <div class="trow"><div class="tmeta">Body — Inter Regular 400</div><div class="tbody">Lleva el control de tu liga de softball: partidos, estadísticas, carreras en tiempo real y mucho más desde tu celular.</div></div>
+    <div class="trow"><div class="tmeta">Accent — Inter Bold Caps</div><div class="taccent">En Vivo · Estadísticas · Liga</div></div>
+  </div>
+
+  <div class="section-label">05 — Taglines</div>
+  <div class="taglines-box">
+    <div class="tg-item"><div class="tg-dot"></div><div class="tg-text"><strong>Tu liga, tu diamante.</strong> — ElPlay</div></div>
+    <div class="tg-item"><div class="tg-dot"></div><div class="tg-text">Donde cada <strong>batazo cuenta</strong>.</div></div>
+    <div class="tg-item"><div class="tg-dot"></div><div class="tg-text"><strong>El juego en tus manos.</strong> Stats. Ligas. En vivo.</div></div>
+    <div class="tg-item"><div class="tg-dot"></div><div class="tg-text">Softball <strong>como se vive</strong> en RD.</div></div>
+  </div>
+
+</div>
+</body>
+</html>
