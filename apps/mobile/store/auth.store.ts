@@ -43,7 +43,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nombre } },
+      options: {
+        data: { nombre },
+        emailRedirectTo: 'elplay://',   // opens the app instead of localhost
+      },
     })
     set({ isLoading: false })
     if (error) return error.message
