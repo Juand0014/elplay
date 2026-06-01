@@ -29,19 +29,19 @@ CREATE TYPE rol_usuario      AS ENUM ('comisionado', 'dueno_equipo', 'scorer', '
 -- ============================================================
 
 CREATE TABLE ligas (
-  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  nombre      TEXT NOT NULL,
-  descripcion TEXT,
-  logo_url    TEXT,
-  -- Configuración por defecto — puede ser sobreescrita por torneo o juego
-  innings     INTEGER NOT NULL DEFAULT 9 CHECK (innings BETWEEN 3 AND 15),
-  innings_minimos INTEGER NOT NULL DEFAULT 5 CHECK (innings_minimos BETWEEN 3 AND 15),
+  id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  nombre           TEXT NOT NULL,
+  temporada        TEXT NOT NULL DEFAULT '',   -- ej: "2026", "Verano 2026"
+  descripcion      TEXT,
+  logo_url         TEXT,
+  -- Default game config — overrideable by tournament or individual game
+  innings          INTEGER NOT NULL DEFAULT 9 CHECK (innings BETWEEN 3 AND 15),
+  innings_minimos  INTEGER NOT NULL DEFAULT 5 CHECK (innings_minimos BETWEEN 3 AND 15),
   outs_por_entrada INTEGER NOT NULL DEFAULT 3 CHECK (outs_por_entrada IN (2, 3)),
-  -- Comisionado de la liga
-  comisionado_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE RESTRICT,
-  activa      BOOLEAN NOT NULL DEFAULT true,
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  comisionado_id   UUID NOT NULL REFERENCES auth.users(id) ON DELETE RESTRICT,
+  activa           BOOLEAN NOT NULL DEFAULT true,
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- ============================================================
