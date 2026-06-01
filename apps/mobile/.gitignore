@@ -4,3 +4,16 @@
 
 expo-env.d.ts
 # @end expo-cli
+
+# Metro bundler cache
+.metro-cache/
+
+# Expo
+.expo/
+
+# Node
+node_modules/
+
+# Build outputs
+dist/
+build/
