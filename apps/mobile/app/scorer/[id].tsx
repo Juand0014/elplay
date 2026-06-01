@@ -286,7 +286,7 @@ export default function ScorerScreen() {
     Alert.alert(
       isKo ? '¡Knockout!' : '¡Partido finalizado!',
       `Score final: ${score.local} — ${score.visitante}`,
-      [{ text: 'OK', onPress: () => router.replace('/(tabs)/') }]
+      [{ text: 'OK', onPress: () => router.replace('/(tabs)') }]
     )
   }
 
@@ -468,7 +468,7 @@ export default function ScorerScreen() {
         {ended && (
           <View style={styles.endedBanner}>
             <Text style={styles.endedText}>Partido finalizado</Text>
-            <TouchableOpacity onPress={() => router.replace('/(tabs)/') }>
+            <TouchableOpacity onPress={() => router.replace('/(tabs)') }>
               <Text style={styles.endedLink}>Ir al inicio →</Text>
             </TouchableOpacity>
           </View>

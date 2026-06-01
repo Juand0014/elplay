@@ -56,7 +56,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (!isHydrated || !fontsLoaded) return
     if (session) {
-      router.replace('/(tabs)/')
+      router.replace('/(tabs)')
     } else {
       router.replace('/(auth)/login')
     }
@@ -74,25 +74,14 @@ export default function RootLayout() {
           animation:    'slide_from_right',
         }}
       >
-        <Stack.Screen name="(auth)"              options={{ animation: 'fade' }} />
-        <Stack.Screen name="(tabs)"              options={{ animation: 'fade' }} />
-        <Stack.Screen name="scorer/[id]"         options={{ presentation: 'modal' }} />
-        <Stack.Screen name="partido/[id]"        />
-        <Stack.Screen name="equipo/[id]"         />
-        <Stack.Screen name="jugador/[id]"        />
-        <Stack.Screen name="interno/crear"       />
-        <Stack.Screen name="interno/[id]"        />
-        <Stack.Screen name="interno/historial"   />
-        <Stack.Screen name="publico/[id]"        options={{ animation: 'fade' }} />
-        <Stack.Screen name="liga/crear"          />
-        <Stack.Screen name="liga/[id]"           />
-        <Stack.Screen name="partido/crear"       />
-        <Stack.Screen name="liga/crear"          />
-        <Stack.Screen name="liga/[id]/posiciones" />
-        <Stack.Screen name="equipo/crear"         />
-        <Stack.Screen name="equipo/[id]/editar"   />
-        <Stack.Screen name="jugador/[id]"         />
-        <Stack.Screen name="partido/[id]/lineup"  />
+        {/*
+         * Only declare screens that need non-default presentation.
+         * Expo Router auto-discovers every other route from the file system.
+         */}
+        <Stack.Screen name="(auth)"       options={{ animation: 'fade' }} />
+        <Stack.Screen name="(tabs)"       options={{ animation: 'fade' }} />
+        <Stack.Screen name="scorer/[id]"  options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="publico/[id]" options={{ animation: 'fade' }} />
       </Stack>
     </QueryClientProvider>
   )

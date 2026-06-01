@@ -18,7 +18,7 @@ export function useRequireRole(requiredRole: RolUsuario) {
     }
     if (role !== requiredRole) {
       // Sin permiso → regresar a home
-      router.replace('/(tabs)/')
+      router.replace('/(tabs)')
     }
   }, [isHydrated, session, role, requiredRole])
 

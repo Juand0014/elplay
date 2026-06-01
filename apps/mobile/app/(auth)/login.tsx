@@ -22,7 +22,7 @@ export default function LoginScreen() {
     if (error) {
       setError('root', { message: error })
     } else {
-      router.replace('/(tabs)/')
+      router.replace('/(tabs)')
     }
   }
 
