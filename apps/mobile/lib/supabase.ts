@@ -4,9 +4,16 @@ import Constants          from 'expo-constants'
 
 const extra = Constants.expoConfig?.extra as Record<string, string> | undefined
 
-// Fallback to local Supabase CLI — replace when real credentials are available
-const supabaseUrl: string    = extra?.['supabaseUrl']    ?? 'http://127.0.0.1:54321'
-const supabaseAnonKey: string = extra?.['supabaseAnonKey'] ?? 'placeholder-anon-key'
+// Priority: app.config.js extra → EXPO_PUBLIC_ env vars → local Supabase CLI fallback
+const supabaseUrl: string =
+  extra?.['supabaseUrl'] ??
+  process.env.EXPO_PUBLIC_SUPABASE_URL ??
+  'http://127.0.0.1:54321'
+
+const supabaseAnonKey: string =
+  extra?.['supabaseAnonKey'] ??
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ??
+  'placeholder-anon-key'
 
 const SecureStoreAdapter = {
   getItem:    (key: string) => SecureStore.getItemAsync(key),
