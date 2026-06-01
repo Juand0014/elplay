@@ -17,7 +17,7 @@ type TabId = 'roster' | 'juegos'
 const POSICION_LABELS: Record<Posicion, string> = {
   [Posicion.Pitcher]:         'P',
   [Posicion.Catcher]:         'C',
-  [Posicion.PrimeraBse]:      '1B',
+  [Posicion.PrimeraBase]:     '1B',
   [Posicion.SegundaBase]:     '2B',
   [Posicion.TerceraBase]:     '3B',
   [Posicion.CortoCampo]:      'SS',

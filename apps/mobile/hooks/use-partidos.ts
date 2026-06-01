@@ -1,29 +1,35 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase }    from '../lib/supabase'
 import { useAuthStore } from '../store/auth.store'
-import { TipoPartido, EstadoPartido } from '@elplay/shared/types'
+import { TipoPartido, EstadoPartido, MediaEntrada } from '@elplay/shared/types'
 
 // ── Tipos ──────────────────────────────────────────────────────
 
 export interface PartidoResumen {
-  id:                    string
-  liga_id:               string | null
-  torneo_id:             string | null
-  equipo_local_id:       string
-  equipo_visitante_id:   string
-  equipo_local_nombre:   string
+  id:                      string
+  liga_id:                 string | null
+  torneo_id:               string | null
+  equipo_local_id:         string
+  equipo_visitante_id:     string
+  equipo_local_nombre:     string
   equipo_visitante_nombre: string
-  equipo_local_color:    string
-  equipo_visitante_color: string
-  scorer_id:             string | null
-  tipo:                  TipoPartido
-  estado:                EstadoPartido
-  fecha:                 string
-  entrada_actual:        number
-  media_entrada_actual:  string
-  carreras_local:        number
-  carreras_visitante:    number
-  innings_override:      number | null
+  equipo_local_color:      string
+  equipo_visitante_color:  string
+  scorer_id:               string | null
+  tipo:                    TipoPartido
+  estado:                  EstadoPartido
+  fecha:                   string
+  entrada_actual:          number
+  media_entrada_actual:    MediaEntrada
+  carreras_local:          number
+  carreras_visitante:      number
+  hits_local:              number
+  hits_visitante:          number
+  errores_local:           number
+  errores_visitante:       number
+  innings_override:        number | null
+  created_at:              string
+  updated_at:              string
 }
 
 export interface CreatePartidoInput {
@@ -56,12 +62,32 @@ async function enrichPartido(p: Record<string, unknown>): Promise<PartidoResumen
   const localData     = local.data     as { nombre: string; color_primario: string } | null
   const visitanteData = visitante.data as { nombre: string; color_primario: string } | null
 
+  const base = p as unknown as Record<string, unknown>
   return {
-    ...(p as unknown as PartidoResumen),
-    equipo_local_nombre:    localData?.nombre     ?? '—',
-    equipo_visitante_nombre: visitanteData?.nombre  ?? '—',
-    equipo_local_color:     localData?.color_primario     ?? COLORS_PRIMARY,
-    equipo_visitante_color: visitanteData?.color_primario ?? '#3b82f6',
+    id:                      String(base['id'] ?? ''),
+    liga_id:                 (base['liga_id'] as string | null) ?? null,
+    torneo_id:               (base['torneo_id'] as string | null) ?? null,
+    equipo_local_id:         String(base['equipo_local_id'] ?? ''),
+    equipo_visitante_id:     String(base['equipo_visitante_id'] ?? ''),
+    scorer_id:               (base['scorer_id'] as string | null) ?? null,
+    tipo:                    base['tipo'] as TipoPartido,
+    estado:                  base['estado'] as EstadoPartido,
+    fecha:                   String(base['fecha'] ?? ''),
+    entrada_actual:          Number(base['entrada_actual'] ?? 1),
+    media_entrada_actual:    (base['media_entrada_actual'] as MediaEntrada) ?? MediaEntrada.Top,
+    carreras_local:          Number(base['carreras_local'] ?? 0),
+    carreras_visitante:      Number(base['carreras_visitante'] ?? 0),
+    hits_local:              Number(base['hits_local'] ?? 0),
+    hits_visitante:          Number(base['hits_visitante'] ?? 0),
+    errores_local:           Number(base['errores_local'] ?? 0),
+    errores_visitante:       Number(base['errores_visitante'] ?? 0),
+    innings_override:        (base['innings_override'] as number | null) ?? null,
+    created_at:              String(base['created_at'] ?? ''),
+    updated_at:              String(base['updated_at'] ?? ''),
+    equipo_local_nombre:     localData?.nombre          ?? '—',
+    equipo_visitante_nombre: visitanteData?.nombre       ?? '—',
+    equipo_local_color:      localData?.color_primario  ?? COLORS_PRIMARY,
+    equipo_visitante_color:  visitanteData?.color_primario ?? '#3b82f6',
   }
 }
 

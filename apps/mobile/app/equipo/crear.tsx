@@ -21,7 +21,7 @@ export default function CrearEquipoScreen() {
 
   const [nombre, setNombre]           = useState('')
   const [abreviatura, setAbreviatura] = useState('')
-  const [color, setColor]             = useState(COLORS.PRIMARY)
+  const [color, setColor]             = useState<string>(COLORS.PRIMARY)
 
   // Auto-generar abreviatura de las primeras 3 letras del nombre
   const handleNombreChange = (v: string) => {

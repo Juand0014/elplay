@@ -25,7 +25,7 @@ export default function CrearJuegoInternoScreen() {
 
   const [step, setStep]         = useState(1)
   const [fecha]                 = useState(new Date().toISOString())
-  const [innings, setInnings]   = useState(DEFAULT_GAME_CONFIG.INNINGS)
+  const [innings, setInnings]   = useState<number>(DEFAULT_GAME_CONFIG.INNINGS)
   // Asignaciones: null = sin asignar, 'A' = Grupo A, 'B' = Grupo B
   const [asignaciones, setAsignaciones] = useState<Record<string, 'A' | 'B' | null>>({})
 

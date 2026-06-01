@@ -253,11 +253,11 @@ export default function ScorerScreen() {
       if (rules.length > 0 && partido) {
         const fakePartido = {
           ...partido,
-          carreras_local:    score.local,
-          carreras_visitante: score.visitante,
-          entrada_actual:    currentEntrada,
-          media_entrada:     currentMedia as unknown as MediaEntrada,
-          estado:            EstadoPartido.EnVivo,
+          carreras_local:       score.local,
+          carreras_visitante:   score.visitante,
+          entrada_actual:       currentEntrada,
+          media_entrada_actual: currentMedia,
+          estado:               EstadoPartido.EnVivo,
         }
         const triggered = evaluateKnockoutClient(fakePartido, rules)
         if (triggered) {

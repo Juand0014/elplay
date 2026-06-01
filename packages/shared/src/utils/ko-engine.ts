@@ -46,7 +46,7 @@ export const evaluateKnockoutClient = (
   if (partido.estado !== EstadoPartido.EnVivo) return null
 
   // Solo evaluar al finalizar el Bottom de la entrada
-  if (partido.media_entrada !== MediaEntrada.Bottom) return null
+  if (partido.media_entrada_actual !== MediaEntrada.Bottom) return null
 
   const diferencia = calculateDiferencia(
     partido.carreras_local,
@@ -64,7 +64,7 @@ export const isPartidoCompletado = (
   if (partido.estado !== EstadoPartido.EnVivo) return false
   // El partido termina al completar el Bottom del último inning
   return (
-    partido.entrada_actual >= inningsConfig &&
-    partido.media_entrada  === MediaEntrada.Bottom
+    partido.entrada_actual  >= inningsConfig &&
+    partido.media_entrada_actual === MediaEntrada.Bottom
   )
 }

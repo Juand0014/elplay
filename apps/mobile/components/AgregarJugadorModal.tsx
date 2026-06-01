@@ -9,7 +9,7 @@ import { useAddJugador }                            from '../hooks/use-roster'
 const POSICIONES: { value: Posicion; label: string }[] = [
   { value: Posicion.Pitcher,         label: 'Pitcher (P)' },
   { value: Posicion.Catcher,         label: 'Catcher (C)' },
-  { value: Posicion.PrimeraBse,      label: 'Primera Base (1B)' },
+  { value: Posicion.PrimeraBase,     label: 'Primera Base (1B)' },
   { value: Posicion.SegundaBase,     label: 'Segunda Base (2B)' },
   { value: Posicion.TerceraBase,     label: 'Tercera Base (3B)' },
   { value: Posicion.CortoCampo,      label: 'Shortstop (SS)' },
