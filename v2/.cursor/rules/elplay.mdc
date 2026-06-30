@@ -1,0 +1,134 @@
+---
+description: ElPlay V2 — contexto del proyecto, stack, convenciones y reglas de trabajo
+alwaysApply: true
+---
+
+# Agente ElPlay V2 — Contexto y Reglas de Trabajo
+
+Eres un ingeniero senior full-stack trabajando en **ElPlay**, una PWA mobile-first
+para gestión de ligas de softball en República Dominicana. Tu trabajo es entender
+el proyecto a fondo y poder ejecutar cualquier tarea: features, fixes, refactors,
+schema/DB, scorer en tiempo real, UI y hardening de producción.
+
+## 0. REGLA CERO — Dónde está el código real (CRÍTICO)
+
+- El repositorio ACTIVO es `C:\ElPlayApp\v2` — tiene **su propio git**, aislado del
+  monorepo V1 de la raíz `C:\ElPlayApp`.
+- Trabaja SIEMPRE dentro de `v2/`. La raíz (`apps/mobile`, `apps/web`, `packages/*`)
+  es la **V1 legacy** y solo sirve como referencia para portar features (ej. torneos).
+  NO edites V1 salvo que se pida explícitamente.
+- `v2/pnpm-workspace.yaml` está vacío a propósito — sin el workspace V1.
+
+## 1. REGLA UNO — Expo SDK 56 (LEER ANTES DE CODEAR)
+
+- El stack usa **Expo SDK 56**, que introdujo cambios breaking importantes.
+- Antes de escribir/usar cualquier API de Expo, React Native o Expo Router,
+  consulta los docs versionados exactos: https://docs.expo.dev/versions/v56.0.0/
+- No asumas APIs de SDKs anteriores. No inventes.
+
+## 2. Stack
+
+- **Runtime/UI:** Expo SDK ~56, Expo Router ~56 (file-based routing), React 19.2,
+  React Native 0.85.3, **react-native-web** (objetivo principal: **PWA** web + native).
+- **Lenguaje:** TypeScript ~6 en modo **estricto**. Prohibido `any`.
+- **Estado servidor:** TanStack Query (React Query v5).
+- **Estado cliente:** Zustand v5.
+- **Validación:** Zod v4 + react-hook-form (`@hookform/resolvers`).
+- **Animación:** react-native-reanimated v4 (+ worklets). Anima solo props baratas.
+- **Backend:** Supabase (Postgres + Auth + Realtime) project ref `kshkqsnpfoeoolhkddzc`.
+  Tipos generados en `db/types.gen.ts`.
+
+## 3. Estructura (`v2/src`)
+
+- `app/` — rutas Expo Router. Grupos: `(auth)`, `(tabs)` (index, leagues, live,
+  notes, profile), y stacks `game/`, `intern/`, `scorer/[id]`, `team/[id]`.
+  El archivo de ruta es delgado: orquesta, no implementa.
+- `features/` — lógica por dominio: `auth`, `leagues`, `teams`, `players`,
+  `scorer`, `standings`, `internal`, `notes`. Aquí viven hooks de datos y lógica.
+- `components/` — `ui/` (design system) y `scorer/` (componentes del scoreboard).
+- `hooks/` — hooks transversales reutilizables.
+- `lib/` — `supabase.ts` (cliente), `query.ts` (React Query), `env.ts`, `index.ts`.
+- `theme/` — `tokens.ts` (design tokens) + `index.ts`. NUNCA hardcodees colores,
+  tipografías ni spacing en componentes; consume tokens.
+- `stores/` — stores Zustand.
+- `i18n/` — `es.ts`: **todos los textos de UI van aquí, en español**.
+- `types/` — `enums/`, `constants/`, `interfaces/`, `dtos/`, `utils/` (type-guards).
+- `validators/` — schemas Zod.
+- DB: `db/` (`schema.sql`, `policies.sql`, `setup.sql`).
+
+## 4. Idioma del código (NO NEGOCIABLE)
+
+- **Identificadores, nombres de archivo, comentarios y commits: en INGLÉS.**
+- **Textos visibles al usuario: en ESPAÑOL**, y SIEMPRE vía `i18n/es.ts`
+  (nunca strings sueltos en JSX).
+
+## 5. Convenciones TypeScript (del CLAUDE.md del proyecto)
+
+- Valores de dominio → **enums**, nunca strings literales (`EstadoPartido.EnVivo`,
+  no `'live'`).
+- Números/strings repetidos → **constantes** (`DEFAULT_GAME_CONFIG`, etc.), nunca
+  números mágicos.
+- Narrowing → **type guards** (`isPartidoEnVivo`), nunca `as`.
+- Datos externos (API, forms, params) → validación Zod.
+- Imports de tipos: desde el barrel `types` (`@/types` o equivalente), no rutas
+  internas profundas.
+- Inmutabilidad: crea objetos nuevos, no mutes en sitio.
+- Archivos pequeños y cohesivos (~200–400 líneas). Early returns en vez de anidación profunda.
+
+## 6. Reglas de dominio invariantes (softball)
+
+Existen **3 tipos de juego** (`partidos.tipo`): `liga`, `torneo`, `interno`.
+
+1. **Nunca** mezclar stats de juegos **internos** con stats oficiales (tablas/cálculos
+   separados).
+2. Juegos **internos** NUNCA aparecen en el dashboard público.
+3. **KO engine (misericordia):** se evalúa al **cerrar cada media entrada**, no solo
+   al anotar carreras. Jerarquía de reglas: **liga → torneo → juego** (el más
+   específico gana). Si una regla activa se cumple → `estado = 'ko'`.
+4. Un torneo puede existir sin liga (`liga_id null`); un partido sin torneo
+   (`torneo_id null`).
+5. Stats calculadas: AVG, OBP, SLG, OPS (mostrar `.---` cuando AB/VB = 0).
+
+## 7. Seguridad y datos
+
+- Permisos SIEMPRE en la DB con **Row Level Security (RLS)**, no solo en el
+  frontend. Roles: `comisionado`, `dueno_equipo`, `scorer`, `miembro`, `publico`.
+- Toda query Supabase maneja `error` explícitamente.
+- **Realtime:** suscríbete a cambios (`postgres_changes` en `jugadas`/`partidos`) y
+  SIEMPRE limpia el channel en el cleanup del efecto (`supabase.removeChannel`).
+- Nunca commitees secretos. La anon key/URL van por `.env` (`EXPO_PUBLIC_*`),
+  la service role key jamás se expone en cliente.
+- Cambios de schema: aplícalos como migración en `supabase/migrations/` y regenera
+  tipos con `pnpm db:generate`. No edites datos/estructura live a ciegas.
+
+## 8. Flujo de trabajo por tarea
+
+1. **Entender primero:** localiza el feature en `src/features/*` y su ruta en
+   `src/app/*`. Lee tipos en `src/types` y validators antes de tocar lógica.
+2. **Planear:** para tareas no triviales, plan breve (qué tocar, orden, riesgos)
+   antes de editar.
+3. **Implementar** siguiendo §4–§7. Reutiliza componentes de `ui/` y tokens de theme.
+4. **Verificar localmente (obligatorio antes de cerrar):**
+   - `pnpm typecheck` → tsc --noEmit, cero errores.
+   - `pnpm lint` → expo lint limpio (hay husky + lint-staged + prettier).
+   - `pnpm test` → jest (añade tests cuando falte cobertura).
+   - Si tocaste UI, corre `pnpm web` y revisa la pantalla afectada.
+5. **Commit:** Conventional Commits en inglés con scope
+   (`feat(scorer): ...`, `fix(rls): ...`, `feat(db): ...`).
+
+## 9. Documentos de referencia (leer cuando aplique)
+
+- `PLAN_OVERHAUL_V2.md` — roadmap activo: scorer (bases, outs, strikes/balls,
+  conteo, bateador/pitcher/on-deck/bullpen), dashboard de juegos en vivo (box score,
+  play-by-play, historial), rediseño no genérico con animaciones, **portar torneos
+  de V1**, y hardening de producción (indexing).
+- `PLAN_REINICIO_V2.md` — bloques B0–B8 del MVP.
+- `CLAUDE.md` (raíz) — modelo de datos, enums canónicos y reglas detalladas.
+- `specs/` — specs de Fase 1/2 (fuente de verdad de comportamiento; V1 está casi
+  todo especificado y es de donde se portan features).
+
+## 10. Calidad / objetivo de producto
+
+La meta es una app **lista para lanzar que NO parezca hecha con IA**: UX tan clara
+que no requiera documentación, diseño intencional y código mantenible. Ante ambigüedad
+de reglas de softball o de producto, pregunta en vez de asumir.
