@@ -25,5 +25,5 @@ You are working on **ElPlay** with Cursor and/or Claude Code in the same repo.
 
 ## Kickoff line
 
-Active part = **00 Foundations**. Next product = **01 Scorer MVP** (guest-friendly).  
-Auth: **guest first-class** + **Google** primary (Part 03). Assign humans via **Trello**.
+Active part = **01 Scorer MVP**. Part 00 Foundations is done.  
+Auth: guest first-class + Google (Part 03). Assign humans via **Trello**.

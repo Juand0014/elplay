@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { type Href, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -27,6 +28,8 @@ import { getSupabase, hasSupabaseConfig } from '@/lib';
 import { useSessionStore } from '@/stores/session.store';
 import { colors, spacing, typography } from '@/theme';
 
+const CREATE_GAME_HREF = '/game/create' as Href;
+
 export default function HomeScreen() {
   const { height } = useWindowDimensions();
   const mode = useSessionStore((s) => s.mode);
@@ -50,9 +53,17 @@ export default function HomeScreen() {
     transform: [{ scale: 0.92 + pulse.value * 0.08 }],
   }));
 
+  const goCreateGame = () => {
+    if (mode === 'unknown') {
+      enterAsGuest();
+    }
+    router.push(CREATE_GAME_HREF);
+  };
+
   const onGuest = () => {
     setMessage(null);
     enterAsGuest();
+    router.push(CREATE_GAME_HREF);
   };
 
   const onGoogle = async () => {
@@ -137,7 +148,7 @@ export default function HomeScreen() {
               ) : null}
               <Pressable
                 accessibilityRole="button"
-                onPress={onGuest}
+                onPress={goCreateGame}
                 style={({ pressed }) => [
                   styles.primaryHit,
                   pressed && styles.pressed,

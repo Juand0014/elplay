@@ -16,15 +16,15 @@ Backlog → Spec Ready → Doing Owner → Doing Partner → Doing Contributor �
 | Confirm local setup | **Partner (Trello)** | Todo |
 | Entry UX redesign (diamond / guest+Google) | Owner / Agents | Done on branch |
 
-## Part 01 — Scorer MVP
+## Part 01 — Scorer MVP (**ACTIVE**)
 
 | Card | Owner | Status |
 |---|---|---|
-| Spec 01 | Owner | Spec Ready |
-| Scorer pad UI | **Partner (Trello)** | Backlog |
-| Schema `games`/`plays` + hooks | Owner | Backlog |
-| Invite token | Owner | Backlog |
-| QA 2–3 innings | Other person | Backlog |
+| Spec 01 | Owner | Done |
+| Engine + local store + pad UI | Owner / Agents | **Done on branch** |
+| Scorer pad UX polish | **Partner (Trello)** | Todo |
+| Supabase sync when env ready | Owner | Backlog |
+| QA 2–3 innings | Other person | Todo |
 
 ## Part 03 — Guest + Google
 

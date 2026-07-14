@@ -1,7 +1,8 @@
 # ElPlay — Project Memory
 
 > Canonical context for **Cursor** and **Claude Code**. Read this before any task.
-> Active part: **00 Foundations** (next product: **01 Scorer MVP**).
+> Active part: **01 Scorer MVP**. Part 00 Foundations = done on branch.
+> Master roadmap: [docs/PLAN.md](docs/PLAN.md) · Trello: [docs/TRELLO.md](docs/TRELLO.md)
 
 ## What ElPlay is
 
@@ -83,12 +84,11 @@ Authorization lives in **RLS**, not only the client.
 
 | Part | Spec | Status |
 |---|---|---|
-| 00 | Foundations | **ACTIVE** |
-| 01 | Scorer MVP (guest-friendly, no forced login) | Next |
+| 00 | Foundations | **DONE** (branch) |
+| 01 | Scorer MVP (guest-friendly, no forced login) | **ACTIVE** |
 | 02 | Live game + live dashboard | Waiting |
-| 03 | Guest session + **Google Auth** | Waiting |
-| 04 | *(removed — Google is primary; no separate email-first part)* | — |
-| 05 | Roles + RLS | Waiting |
+| 03 | Guest session + **Google Auth** | Waiting (shell exists) |
+| 05 | Roles + RLS + temp scorer URL | Waiting |
 | 06 | Leagues / teams / roster | Waiting |
 | 07 | Standings + KO engine | Waiting |
 | 08 | Internal games | Waiting |
