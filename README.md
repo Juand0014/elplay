@@ -1,82 +1,92 @@
 # ElPlay
 
-PWA mobile-first para ligas de softball en República Dominicana.
-
-**Code:** English · **UI:** Spanish (`src/i18n/es.ts`) · **Sin v1/v2** — un solo producto.
+PWA **mobile-first** para ligas de softball en República Dominicana.  
+**Una sola app Expo** → web (navegador) + mobile (Expo Go / native). Sin v1/v2.
 
 | | |
 |---|---|
 | Repo | https://github.com/Juand0014/elplay |
-| Branch | `main` |
+| Branch base | `main` |
 | Trello | https://trello.com/b/C6kNPrzX/elplay |
-| Parte activa | **01 Scorer MVP** |
+| Parte activa | **00 — Fundaciones** (empezamos de cero) |
+
+**Code:** English · **UI:** Spanish only in `src/i18n/es.ts`
 
 ---
 
-## Collaborators — cómo empezar (léelo primero)
+## Arranque limpio (mobile + web)
 
-### Equipo
-
-| Persona | Rol en Trello | Empieza por |
-|---|---|---|
-| **Juan** (`juandavidmatos1`) | Owner | Cards en *Doing — Owner* |
-| **Yariel** (`yariel`) | Partner | Cards en *Doing — Partner* (prioridad `priority:now`) |
-
-### 1) Clonar e instalar
+Requisitos: **Node ≥ 20**, **pnpm ≥ 9**.
 
 ```bash
 git clone https://github.com/Juand0014/elplay.git
 cd elplay
 git checkout main
-git pull origin main
+git pull
 pnpm install
 cp .env.example .env
-# Windows PowerShell:
-# copy .env.example .env
-pnpm web
 ```
 
-Abre la URL de Expo (suele ser `http://localhost:8081`).
+| Plataforma | Comando | Resultado |
+|---|---|---|
+| **Web (PWA)** | `pnpm web` | Abre Metro en `http://localhost:8081` |
+| **Mobile (Expo)** | `pnpm start` | QR para Expo Go (iOS/Android) |
+| Android emulador | `pnpm android` | Si tienes emulador/SDK |
+| iOS simulador | `pnpm ios` | Solo macOS |
 
-**Requisitos:** Node ≥ 20, pnpm ≥ 9. No necesitas Supabase ni Google para probar el scorer.
+No necesitas Supabase ni Google para la **Parte 00** ni para probar el shell / scorer local.
 
-### 2) Qué debe hacer Yariel ahora (en orden)
+Checklist rápido:
 
-1. Abre Trello → lista **Doing — Partner**  
-2. Card **Confirm local env (`pnpm web`)** → sigue la descripción → comenta `OK local`  
-3. Card **QA: Score 2–3 innings** → prueba el anotador  
-4. Card **Polish scorer pad UX** → crea branch, pulir UI, abre PR  
+1. `pnpm web` → ves la marca **ElPlay** (diamante + naranja `#ff4d00`)
+2. `pnpm start` → escaneas QR con Expo Go
+3. `pnpm typecheck && pnpm lint && pnpm test` → CI local OK
 
-```bash
-git checkout -b feat/part-01-scorer-polish
-# ...cambios...
-git add -A
-git commit -m "feat(scorer): polish pad UX for thumb-first scoring"
-git push -u origin feat/part-01-scorer-polish
-# Abre PR a main en GitHub
-```
+---
 
-### 3) Flujo del partido de prueba
+## Equipo
 
-1. **Entrar como invitado**  
-2. Crear 2 equipos → **Empezar a anotar**  
-3. Escribir el # del bateador/corredor → debe verse en el **centro del diamante**  
-4. Probar bola / strike / out / hits / +1 carrera / deshacer / copiar link  
+| Persona | Trello | Rol | Empieza por |
+|---|---|---|---|
+| **Juan** (`juandavidmatos1`) | Owner | Arquitecto / PM | Cards *Doing — Owner* |
+| **Yariel** (`yariel`) | Partner | Mobile / UX | Cards *Doing — Partner* |
 
-### 4) Reglas del equipo
+- **Trello** = quién hace qué  
+- **GitHub** = código (PRs + CI)  
+- Una sola **parte activa** a la vez  
 
-- Una sola **parte activa** a la vez (ahora: Parte 01)  
-- No empieces Part 02 (Live) hasta que Parte 01 esté en **Done**  
-- Código/comentarios/commits: **inglés**  
-- Textos de pantalla: **español** solo en `src/i18n/es.ts`  
-- Antes de PR: `pnpm typecheck` · `pnpm lint` · `pnpm test`  
-- Trello = quién hace qué · GitHub = código  
+---
 
-### 5) Qué hace Juan ahora
+## Etapas del producto (orden fijo)
 
-- Cards *Doing — Owner* (Supabase/Google opcional, sync DB)  
-- Review de PRs de Yariel  
-- Prioridad en Trello con label `priority:now`  
+Detalle completo: [docs/STAGES.md](docs/STAGES.md) · Roadmap: [docs/PLAN.md](docs/PLAN.md)
+
+| # | Etapa | Spec | Estado equipo | Quién lidera |
+|---|---|---|---|---|
+| **00** | Fundaciones (app corre web+mobile) | `00-foundations` | **ACTIVA — empezar aquí** | Juan + Yariel |
+| **01** | Scorer MVP (anotar sin login) | `01-scorer-mvp` | Siguiente | Juan (engine) · Yariel (UX pad) |
+| **02** | Live partido + dashboard | `02-live-dashboard` | Esperando | Juan (Realtime) · Yariel (cards) |
+| **03** | Guest + Google Auth | `03-auth-guest-google` | Esperando | Juan (Auth) · Yariel (UI) |
+| **05** | Roles + RLS + invite scorer | `05-roles-rls` | Esperando | Juan (DB/RLS) · Yariel (invite UX) |
+| **06** | Ligas / equipos / roster | `06-leagues-teams` | Esperando | Split |
+| **07** | Standings + KO | `07-standings-ko` | Esperando | Juan (KO) · Yariel (tabla) |
+| **08** | Juego interno | `08-internal-game` | Esperando | Split |
+| **09** | Apuntes | `09-notes` | Esperando | Yariel (lista) |
+| **10+** | Torneos, box score, zonas, push | — | Después | — |
+
+**Regla:** no abrir la siguiente etapa hasta DoD verde de la actual.
+
+### Ahora mismo (Parte 00)
+
+| Tarea | Asignado | Lista Trello |
+|---|---|---|
+| Confirmar `pnpm web` + `pnpm start` (Expo Go) | **Yariel** | Doing — Partner |
+| Smoke CI: typecheck / lint / test | **Yariel** | Doing — Partner |
+| Revisar estructura + MEMORY / ARCHITECTURE | **Juan** | Doing — Owner |
+| Bootstrap Trello (script de cards frescas) | **Juan** | Doing — Owner |
+| (Opcional) Supabase project vacío | **Juan** | Spec Ready |
+
+Cuando Parte 00 esté Done → abrir Parte 01 (Scorer).
 
 ---
 
@@ -84,23 +94,27 @@ git push -u origin feat/part-01-scorer-polish
 
 | Comando | Qué hace |
 |---|---|
-| `pnpm web` | App en navegador (PWA) |
-| `pnpm start` | Expo |
+| `pnpm web` | Web / PWA |
+| `pnpm start` | Expo (mobile QR) |
+| `pnpm android` / `pnpm ios` | Native targets |
 | `pnpm typecheck` | TypeScript |
 | `pnpm lint` | ESLint |
 | `pnpm test` | Jest |
+| `pnpm trello:bootstrap` | Recrea cards de etapas en Trello (necesita API key) |
 
 ## Docs
 
 | Doc | Para qué |
 |---|---|
-| [docs/START_HERE.md](docs/START_HERE.md) | Checklist humano |
-| [docs/PLAN.md](docs/PLAN.md) | Roadmap parte por parte |
-| [docs/TRELLO.md](docs/TRELLO.md) | Cómo usar el board |
+| [docs/STAGES.md](docs/STAGES.md) | **Etapas** explicadas (este es el mapa) |
+| [docs/START_HERE.md](docs/START_HERE.md) | Checklist humano de hoy |
+| [docs/PLAN.md](docs/PLAN.md) | Roadmap |
+| [docs/TRELLO.md](docs/TRELLO.md) | Board + sync |
+| [docs/BOARD.md](docs/BOARD.md) | Asignaciones actuales |
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Cómo contribuir |
 | [MEMORY.md](MEMORY.md) | Memoria Cursor + Claude |
 | [specs/](specs/) | Specs por parte |
 
-## Stack (resumen)
+## Stack
 
-Expo SDK 54 · Expo Router · React Native Web · TypeScript strict · Zustand · TanStack Query · Zod · Supabase (cuando se configure)
+Expo SDK **54** · Expo Router · React Native Web · TypeScript strict · Zustand · TanStack Query · Zod · Supabase (cuando se configure)

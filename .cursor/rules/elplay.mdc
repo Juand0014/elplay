@@ -5,11 +5,12 @@ alwaysApply: true
 
 # ElPlay agent rules
 
-Read `MEMORY.md` and `AGENTS.md` before coding.
+Read `MEMORY.md`, `AGENTS.md`, and `docs/STAGES.md` before coding.
 
 ## Zero
 
 - One product: **ElPlay**. No v1/v2 naming.
+- Fresh team start: **Part 00 Foundations** until DoD (web + mobile run).
 - Expo **SDK 54** docs: https://docs.expo.dev/versions/v54.0.0/
 - Code/comments/commits/schema: **English**. UI: **Spanish** only via `src/i18n/es.ts`.
 

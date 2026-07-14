@@ -1,6 +1,7 @@
 # ElPlay Build Board
 
-**Trello:** https://trello.com/b/C6kNPrzX/elplay
+**Trello:** https://trello.com/b/C6kNPrzX/elplay  
+**Reinicio:** Parte **00 Fundaciones** — base web + mobile corriendo.
 
 ## Asignaciones
 
@@ -9,14 +10,30 @@
 | Juan David Matos | `juandavidmatos1` | Owner |
 | Yariel | `yariel` | Partner |
 
-## Ahora (`priority:now` / Doing)
+## Ahora (`priority:now`) — Parte 00
+
+| Card | Quién | Lista |
+|---|---|---|
+| Confirm local env (`pnpm web` + `pnpm start`) | **Yariel** | Doing — Partner |
+| Smoke CI typecheck/lint/test | **Yariel** | Doing — Partner |
+| Review MEMORY / ARCHITECTURE / STAGES | **Juan** | Doing — Owner |
+| Bootstrap Trello stages (`pnpm trello:bootstrap`) | **Juan** | Doing — Owner |
+| (Opcional) Crear proyecto Supabase vacío | **Juan** | Spec Ready |
+
+## Siguiente (Parte 01 — cuando 00 esté Done)
 
 | Card | Quién |
 |---|---|
-| Confirm local env (`pnpm web`) | **Yariel** |
-| Polish scorer pad UX | **Yariel** |
-| QA 2–3 innings | **Yariel + Juan** |
-| Optional Supabase + Google | **Juan** |
-| Sync scorer → Supabase | **Juan** (Spec Ready) |
+| QA Scorer 2–3 innings | Yariel + Juan |
+| Polish scorer pad UX | Yariel |
+| Scorer engine / invite link hardening | Juan |
 
-Part 00 + scorer core → Done. Invite Partner card → Done (Yariel ya en el board).
+## Cómo refrescar el board
+
+```bash
+export TRELLO_API_KEY=...
+export TRELLO_TOKEN=...
+pnpm trello:bootstrap --archive-open
+```
+
+Ver [TRELLO.md](TRELLO.md) y [STAGES.md](STAGES.md).
