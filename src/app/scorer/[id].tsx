@@ -1,6 +1,6 @@
-import * as Clipboard from 'expo-clipboard';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import * as Clipboard from "expo-clipboard";
+import { router, useLocalSearchParams } from "expo-router";
+import { useMemo, useState } from "react";
 import {
   Pressable,
   ScrollView,
@@ -8,15 +8,15 @@ import {
   Text,
   TextInput,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { DiamondMark } from '@/components/ui';
-import { ScoreBoard, ScorerPad } from '@/components/scorer';
-import { useScorerStore } from '@/features/scorer';
-import { t } from '@/i18n';
-import { GameStatus, PlayType } from '@/types';
-import { colors, spacing, typography } from '@/theme';
+import { ScoreBoard, ScorerPad } from "@/components/scorer";
+import { DiamondMark } from "@/components/ui";
+import { useScorerStore } from "@/features/scorer";
+import { t } from "@/i18n";
+import { colors, spacing, typography } from "@/theme";
+import { GameStatus, PlayType } from "@/types";
 
 export default function ScorerScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -33,9 +33,9 @@ export default function ScorerScreen() {
   if (!id || !game) {
     return (
       <SafeAreaView style={styles.safe}>
-        <Text style={styles.missing}>{t('scorer.missing')}</Text>
-        <Pressable onPress={() => router.replace('/')}>
-          <Text style={styles.link}>{t('scorer.backHome')}</Text>
+        <Text style={styles.missing}>{t("scorer.missing")}</Text>
+        <Pressable onPress={() => router.replace("/")}>
+          <Text style={styles.link}>{t("scorer.backHome")}</Text>
         </Pressable>
       </SafeAreaView>
     );
@@ -43,7 +43,7 @@ export default function ScorerScreen() {
 
   const copyInvite = async () => {
     const url =
-      typeof window !== 'undefined'
+      typeof window !== "undefined"
         ? `${window.location.origin}/scorer/invite/${game.inviteToken}`
         : `elplay://scorer/invite/${game.inviteToken}`;
     await Clipboard.setStringAsync(url);
@@ -53,13 +53,13 @@ export default function ScorerScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{t('scorer.title')}</Text>
-          {finished ? (
-            <Text style={styles.over}>{t('scorer.gameOver')}</Text>
-          ) : null}
-        </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        style={styles.scroll}
+      >
+        {finished ? (
+          <Text style={styles.over}>{t("scorer.gameOver")}</Text>
+        ) : null}
 
         <ScoreBoard game={game} />
 
@@ -67,41 +67,66 @@ export default function ScorerScreen() {
           <DiamondMark
             size={160}
             runnerJerseyNumber={game.runnerJerseyNumber}
-            runnerLabel={t('home.runnerA11y')}
+            runnerLabel={t("home.runnerA11y")}
           />
           <View style={styles.basesCol}>
             <BaseField
-              label={t('scorer.base3')}
+              label={t("scorer.base3")}
               value={game.bases.third}
-              onChange={(v) => store.setBaseOccupant(game.id, 'third', v)}
+              onChange={(v) => store.setBaseOccupant(game.id, "third", v)}
               disabled={finished}
             />
             <BaseField
-              label={t('scorer.base2')}
+              label={t("scorer.base2")}
               value={game.bases.second}
-              onChange={(v) => store.setBaseOccupant(game.id, 'second', v)}
+              onChange={(v) => store.setBaseOccupant(game.id, "second", v)}
               disabled={finished}
             />
             <BaseField
-              label={t('scorer.base1')}
+              label={t("scorer.base1")}
               value={game.bases.first}
-              onChange={(v) => store.setBaseOccupant(game.id, 'first', v)}
+              onChange={(v) => store.setBaseOccupant(game.id, "first", v)}
               disabled={finished}
             />
           </View>
         </View>
 
-        <Text style={styles.label}>{t('scorer.runner')}</Text>
+        <Text style={styles.label}>{t("scorer.runner")}</Text>
         <TextInput
-          value={game.runnerJerseyNumber ?? ''}
+          value={game.runnerJerseyNumber ?? ""}
           onChangeText={(v) => store.setRunnerNumber(game.id, v)}
-          placeholder={t('scorer.runnerPlaceholder')}
+          placeholder={t("scorer.runnerPlaceholder")}
           placeholderTextColor={colors.textDim}
           keyboardType="number-pad"
           editable={!finished}
           style={styles.input}
         />
 
+        <Pressable
+          onPress={() => {
+            void copyInvite();
+          }}
+          style={styles.invite}
+        >
+          <Text style={styles.inviteText}>
+            {copied ? t("scorer.inviteCopied") : t("scorer.invite")}
+          </Text>
+        </Pressable>
+
+        <Text style={styles.playsTitle}>{t("scorer.plays")}</Text>
+        {playsNewestFirst.length === 0 ? (
+          <Text style={styles.playLine}>{t("scorer.noPlays")}</Text>
+        ) : (
+          playsNewestFirst.map((play) => (
+            <Text key={play.id} style={styles.playLine}>
+              {play.sequence}. {play.label}
+              {play.runsScored > 0 ? ` (+${play.runsScored})` : ""}
+            </Text>
+          ))
+        )}
+      </ScrollView>
+
+      <View style={styles.padArea}>
         <ScorerPad
           disabled={finished}
           onBall={() => store.bumpBalls(game.id)}
@@ -117,26 +142,7 @@ export default function ScorerScreen() {
           onUndo={() => store.undo(game.id)}
           onFinish={() => store.finish(game.id)}
         />
-
-        <Pressable
-          onPress={() => {
-            void copyInvite();
-          }}
-          style={styles.invite}
-        >
-          <Text style={styles.inviteText}>
-            {copied ? t('scorer.inviteCopied') : t('scorer.invite')}
-          </Text>
-        </Pressable>
-
-        <Text style={styles.playsTitle}>{t('scorer.plays')}</Text>
-        {playsNewestFirst.map((play) => (
-          <Text key={play.id} style={styles.playLine}>
-            {play.sequence}. {play.label}
-            {play.runsScored > 0 ? ` (+${play.runsScored})` : ''}
-          </Text>
-        ))}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -156,7 +162,7 @@ function BaseField({
     <View style={styles.baseField}>
       <Text style={styles.baseLabel}>{label}</Text>
       <TextInput
-        value={value ?? ''}
+        value={value ?? ""}
         onChangeText={(v) => onChange(v || null)}
         editable={!disabled}
         keyboardType="number-pad"
@@ -173,26 +179,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bg,
   },
-  content: {
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
     padding: spacing.lg,
-    paddingBottom: spacing.xxl,
-  },
-  header: {
-    marginBottom: spacing.md,
-  },
-  title: {
-    fontFamily: typography.display,
-    color: colors.text,
-    fontSize: 36,
+    paddingBottom: spacing.md,
   },
   over: {
-    marginTop: 4,
     fontFamily: typography.bodyBold,
     color: colors.secondary,
+    marginBottom: spacing.sm,
+  },
+  padArea: {
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.lg,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
   },
   diamondRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacing.md,
     marginBottom: spacing.lg,
   },
@@ -201,8 +209,8 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   baseField: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacing.sm,
   },
   baseLabel: {
@@ -226,7 +234,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontSize: 12,
     letterSpacing: 1,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     marginBottom: spacing.xs,
   },
   input: {
@@ -243,7 +251,7 @@ const styles = StyleSheet.create({
   invite: {
     marginTop: spacing.lg,
     paddingVertical: spacing.md,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 4,
@@ -258,7 +266,7 @@ const styles = StyleSheet.create({
     fontFamily: typography.bodyBold,
     color: colors.primary,
     letterSpacing: 1,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     fontSize: 12,
   },
   playLine: {

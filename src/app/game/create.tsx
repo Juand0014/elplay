@@ -1,7 +1,10 @@
 import { type Href, router } from 'expo-router';
 import { useState } from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useScorerStore } from '@/features/scorer';
 import { t } from '@/i18n';
 import { useSessionStore } from '@/stores/session.store';
-import { colors, spacing, typography } from '@/theme';
+import { colors, radii, spacing, typography } from '@/theme';
 
 export default function CreateGameScreen() {
   const createQuickGame = useScorerStore((s) => s.createQuickGame);
@@ -35,37 +38,47 @@ export default function CreateGameScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <Text style={styles.title}>{t('createGame.title')}</Text>
-
-      <Text style={styles.label}>{t('createGame.awayTeam')}</Text>
-      <TextInput
-        value={away}
-        onChangeText={setAway}
-        placeholder={t('createGame.awayPlaceholder')}
-        placeholderTextColor={colors.textDim}
-        style={styles.input}
-        autoCapitalize="words"
-      />
-
-      <Text style={styles.label}>{t('createGame.homeTeam')}</Text>
-      <TextInput
-        value={home}
-        onChangeText={setHome}
-        placeholder={t('createGame.homePlaceholder')}
-        placeholderTextColor={colors.textDim}
-        style={styles.input}
-        autoCapitalize="words"
-      />
-
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-
-      <Pressable
-        accessibilityRole="button"
-        onPress={onStart}
-        style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Text style={styles.ctaText}>{t('createGame.start')}</Text>
-      </Pressable>
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Text style={styles.title}>{t('createGame.title')}</Text>
+
+          <Text style={styles.label}>{t('createGame.homeTeam')}</Text>
+          <TextInput
+            value={home}
+            onChangeText={setHome}
+            placeholder={t('createGame.homePlaceholder')}
+            placeholderTextColor={colors.textDim}
+            style={styles.input}
+            autoCapitalize="words"
+          />
+
+          <Text style={styles.label}>{t('createGame.awayTeam')}</Text>
+          <TextInput
+            value={away}
+            onChangeText={setAway}
+            placeholder={t('createGame.awayPlaceholder')}
+            placeholderTextColor={colors.textDim}
+            style={styles.input}
+            autoCapitalize="words"
+          />
+
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+
+          <Pressable
+            accessibilityRole="button"
+            onPress={onStart}
+            style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
+          >
+            <Text style={styles.ctaText}>{t('createGame.start')}</Text>
+          </Pressable>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -74,7 +87,13 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: colors.bg,
+  },
+  flex: {
+    flex: 1,
+  },
+  scroll: {
     padding: spacing.lg,
+    flexGrow: 1,
   },
   title: {
     fontFamily: typography.display,
@@ -100,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
-    borderRadius: 4,
+    borderRadius: radii.sm,
   },
   error: {
     marginTop: spacing.md,
@@ -113,7 +132,7 @@ const styles = StyleSheet.create({
     minHeight: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 4,
+    borderRadius: radii.sm,
   },
   ctaText: {
     fontFamily: typography.bodyBlack,
@@ -122,5 +141,6 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.9,
+    transform: [{ scale: 0.98 }],
   },
 });
