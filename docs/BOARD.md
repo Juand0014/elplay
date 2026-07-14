@@ -1,40 +1,41 @@
-# ElPlay Build Board (mirror)
+# ElPlay Build Board
 
-Source of truth: **GitHub Issues**. This file helps Cursor/Claude and partners see ownership at a glance.
+- **People / 3rd parties:** assign work in **Trello** — see [TRELLO.md](TRELLO.md)
+- **Code:** GitHub PRs + CI
+- **Agents:** follow `MEMORY.md` active part; do not steal Trello “Doing — Partner/Contributor” cards
 
-## Columns
+## Columns (mirror of Trello)
 
-Backlog → Spec Ready → Doing Owner → Doing Partner → Review → Done
+Backlog → Spec Ready → Doing Owner → Doing Partner → Doing Contributor → Review → Blocked → Done
 
 ## Part 00 — Foundations
 
-| Issue | Owner | Status |
+| Card / Issue | Owner | Status |
 |---|---|---|
-| Spec 00 written | Owner | Done |
-| App shell + docs + CI | Owner / Agents | In progress → Done when PR merges |
-| Confirm local setup (`pnpm web`) | **Partner** | Todo — use Issue template Partner setup |
+| Spec 00 + app shell | Owner / Agents | Done on branch |
+| Confirm local setup | **Partner (Trello)** | Todo |
+| Entry UX redesign (diamond / guest+Google) | Owner / Agents | Done on branch |
 
-## Part 01 — Scorer MVP (blocked on 00 DoD)
+## Part 01 — Scorer MVP
 
-| Issue | Owner | Status |
+| Card | Owner | Status |
 |---|---|---|
 | Spec 01 | Owner | Spec Ready |
-| Scorer pad UI | **Partner** | Backlog |
-| Schema `games`/`plays` + hooks | Owner / Agents | Backlog |
-| Invite token link | Owner | Backlog |
-| QA 2–3 innings | Whoever did not implement core | Backlog |
+| Scorer pad UI | **Partner (Trello)** | Backlog |
+| Schema `games`/`plays` + hooks | Owner | Backlog |
+| Invite token | Owner | Backlog |
+| QA 2–3 innings | Other person | Backlog |
 
-## Part 03 — Guest + Google Auth (after Live)
+## Part 03 — Guest + Google
 
-| Issue | Owner | Status |
+| Card | Owner | Status |
 |---|---|---|
-| Spec 03 | Owner | Spec Ready (`specs/03-auth-guest-google.spec.md`) |
-| Home CTAs guest + Google (shell) | Owner / Agents | Done in Foundations follow-up |
-| Supabase Google provider + redirects | Owner | Todo (dashboard config) |
-| Polish sign-in / guest UX | **Partner** | Backlog |
+| Spec 03 | Owner | Spec Ready |
+| Supabase Google provider | Owner | Todo |
+| Auth/guest polish | **Partner (Trello)** | Backlog |
 
 ## Rules
 
-- One active product part
-- One primary assignee per Issue
-- Agents do not take Partner-assigned Issues unless asked
+- One active product part (`priority:now` on Trello)
+- One assignee per card
+- Multiple 3rd parties = multiple cards, never one card with unclear ownership

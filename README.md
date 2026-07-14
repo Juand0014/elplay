@@ -19,6 +19,7 @@ pnpm web
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
 - [docs/TEAM_PLAYBOOK.md](docs/TEAM_PLAYBOOK.md)
+- [docs/TRELLO.md](docs/TRELLO.md) — assign Partner / 3rd parties
 - [specs/](specs/) — part-by-part specs
 
 ## Active part

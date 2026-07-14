@@ -1,6 +1,5 @@
 /**
  * Spanish UI copy — the only place user-visible strings live.
- * Code identifiers stay in English; screens call t('key').
  */
 export const es = {
   brand: {
@@ -9,19 +8,18 @@ export const es = {
   },
   home: {
     title: 'ElPlay',
-    subtitle: 'Softball en vivo para ligas de República Dominicana.',
-    activePart: 'Parte activa: fundamentos',
-    nextPart: 'Siguiente: scorer MVP (invitado, sin registro obligatorio)',
+    subtitle: 'Anota el juego. La grada lo ve en vivo.',
     guestCta: 'Entrar como invitado',
     googleCta: 'Continuar con Google',
-    guestHint: 'Sin cuenta. Anota y mira partidos en vivo.',
-    googleHint: 'Para liderar ligas, equipos y guardar tu perfil.',
-    welcomeGuest: 'Estás en modo invitado',
-    welcomeUser: 'Sesión con Google',
-    signOut: 'Cerrar sesión',
+    guestHint: 'Sin cuenta. Listo para el terreno.',
+    googleHint: 'Para liderar ligas y equipos.',
+    welcomeGuest: 'Modo invitado',
+    welcomeUser: 'Conectado con Google',
+    signOut: 'Salir',
+    continuePlay: 'Ir al diamante',
     googleNotConfigured:
-      'Google Auth se activa cuando Supabase tenga el provider Google (Parte 03).',
-    googleError: 'No se pudo iniciar sesión con Google',
+      'Activa Google en Supabase para iniciar sesión (Parte 03).',
+    googleError: 'No se pudo iniciar con Google',
   },
   common: {
     loading: 'Cargando…',
@@ -60,7 +58,6 @@ function lookup(tree: Record<string, unknown>, path: string): string {
   return typeof current === 'string' ? current : path;
 }
 
-/** Resolve a Spanish UI string by dot path (e.g. `home.title`). */
 export function t(key: TranslationKey): string {
   return lookup(es as unknown as Record<string, unknown>, key);
 }

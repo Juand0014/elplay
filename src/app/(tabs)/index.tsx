@@ -1,27 +1,54 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from 'react-native';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { DiamondMark } from '@/components/ui';
 import { signInWithGoogle } from '@/features/auth';
 import { t } from '@/i18n';
 import { getSupabase, hasSupabaseConfig } from '@/lib';
 import { useSessionStore } from '@/stores/session.store';
-import { colors, radii, spacing, typography } from '@/theme';
+import { colors, spacing, typography } from '@/theme';
 
 export default function HomeScreen() {
+  const { height } = useWindowDimensions();
   const mode = useSessionStore((s) => s.mode);
   const displayName = useSessionStore((s) => s.displayName);
   const enterAsGuest = useSessionStore((s) => s.enterAsGuest);
   const clearSession = useSessionStore((s) => s.clearSession);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+
+  const pulse = useSharedValue(0.55);
+  useEffect(() => {
+    pulse.value = withRepeat(
+      withTiming(0.95, { duration: 2200, easing: Easing.inOut(Easing.quad) }),
+      -1,
+      true,
+    );
+  }, [pulse]);
+
+  const diamondStyle = useAnimatedStyle(() => ({
+    opacity: pulse.value,
+    transform: [{ scale: 0.92 + pulse.value * 0.08 }],
+  }));
 
   const onGuest = () => {
     setMessage(null);
@@ -36,7 +63,6 @@ export default function HomeScreen() {
         setMessage(t('home.googleNotConfigured'));
         return;
       }
-
       const result = await signInWithGoogle();
       if (!result.ok) {
         setMessage(
@@ -45,7 +71,6 @@ export default function HomeScreen() {
             : `${t('home.googleError')}: ${result.message}`,
         );
       }
-      // Authenticated session is applied by useAuthBootstrap / onAuthStateChange.
     } finally {
       setBusy(false);
     }
@@ -61,42 +86,71 @@ export default function HomeScreen() {
   };
 
   const isIn = mode === 'guest' || mode === 'authenticated';
+  const diamondSize = Math.min(280, height * 0.34);
 
   return (
     <View style={styles.root}>
       <LinearGradient
-        colors={[colors.bg, '#1a0800', colors.field]}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
+        colors={['#07070c', '#140900', '#1a1208', colors.bg]}
+        locations={[0, 0.35, 0.7, 1]}
         style={StyleSheet.absoluteFill}
       />
+      <View style={styles.fieldGlow} pointerEvents="none" />
+      <View style={styles.baseline} pointerEvents="none" />
+
       <SafeAreaView style={styles.safe}>
-        <View style={styles.hero}>
-          <Text style={styles.brand}>
-            <Text style={styles.brandEl}>EL</Text>
-            <Text style={styles.brandPlay}>PLAY</Text>
-          </Text>
-          <Text style={styles.tagline}>{t('brand.tagline')}</Text>
-          <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
+        <View style={styles.stage}>
+          <Animated.View
+            entering={FadeIn.duration(700)}
+            style={[styles.diamondSlot, diamondStyle]}
+          >
+            <DiamondMark size={diamondSize} />
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.delay(180).duration(650)}>
+            <Text style={styles.brand} accessibilityRole="header">
+              <Text style={styles.brandEl}>EL</Text>
+              <Text style={styles.brandPlay}>PLAY</Text>
+            </Text>
+            <Text style={styles.tagline}>{t('brand.tagline')}</Text>
+            <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
+          </Animated.View>
         </View>
 
-        <View style={styles.actions}>
+        <Animated.View
+          entering={FadeInUp.delay(320).duration(650)}
+          style={styles.footer}
+        >
           {isIn ? (
             <>
-              <Text style={styles.sessionLabel}>
+              <Text style={styles.sessionEyebrow}>
                 {mode === 'guest'
                   ? t('home.welcomeGuest')
-                  : `${t('home.welcomeUser')}${displayName ? `: ${displayName}` : ''}`}
+                  : t('home.welcomeUser')}
               </Text>
+              {displayName ? (
+                <Text style={styles.sessionName}>{displayName}</Text>
+              ) : null}
               <Pressable
                 accessibilityRole="button"
-                onPress={onSignOut}
+                onPress={onGuest}
                 style={({ pressed }) => [
-                  styles.secondaryBtn,
+                  styles.primaryHit,
                   pressed && styles.pressed,
                 ]}
               >
-                <Text style={styles.secondaryBtnText}>{t('home.signOut')}</Text>
+                <Text style={styles.primaryHitText}>
+                  {t('home.continuePlay')}
+                </Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  void onSignOut();
+                }}
+                style={styles.textAction}
+              >
+                <Text style={styles.textActionLabel}>{t('home.signOut')}</Text>
               </Pressable>
             </>
           ) : (
@@ -105,13 +159,13 @@ export default function HomeScreen() {
                 accessibilityRole="button"
                 onPress={onGuest}
                 style={({ pressed }) => [
-                  styles.primaryBtn,
+                  styles.primaryHit,
                   pressed && styles.pressed,
                 ]}
               >
-                <Text style={styles.primaryBtnText}>{t('home.guestCta')}</Text>
+                <Text style={styles.primaryHitText}>{t('home.guestCta')}</Text>
               </Pressable>
-              <Text style={styles.hint}>{t('home.guestHint')}</Text>
+              <Text style={styles.support}>{t('home.guestHint')}</Text>
 
               <Pressable
                 accessibilityRole="button"
@@ -120,7 +174,7 @@ export default function HomeScreen() {
                   void onGoogle();
                 }}
                 style={({ pressed }) => [
-                  styles.googleBtn,
+                  styles.googleHit,
                   pressed && styles.pressed,
                   busy && styles.disabled,
                 ]}
@@ -128,20 +182,15 @@ export default function HomeScreen() {
                 {busy ? (
                   <ActivityIndicator color={colors.text} />
                 ) : (
-                  <Text style={styles.googleBtnText}>{t('home.googleCta')}</Text>
+                  <Text style={styles.googleHitText}>{t('home.googleCta')}</Text>
                 )}
               </Pressable>
-              <Text style={styles.hint}>{t('home.googleHint')}</Text>
+              <Text style={styles.supportMuted}>{t('home.googleHint')}</Text>
             </>
           )}
 
           {message ? <Text style={styles.message}>{message}</Text> : null}
-
-          <View style={styles.meta}>
-            <Text style={styles.metaLabel}>{t('home.activePart')}</Text>
-            <Text style={styles.metaNext}>{t('home.nextPart')}</Text>
-          </View>
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </View>
   );
@@ -152,20 +201,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bg,
   },
+  fieldGlow: {
+    position: 'absolute',
+    width: '140%',
+    height: '55%',
+    bottom: '-8%',
+    left: '-20%',
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,77,0,0.08)',
+  },
+  baseline: {
+    position: 'absolute',
+    left: '8%',
+    right: '8%',
+    bottom: '38%',
+    height: 1,
+    backgroundColor: 'rgba(255,140,0,0.18)',
+  },
   safe: {
     flex: 1,
     paddingHorizontal: spacing.lg,
     justifyContent: 'space-between',
-    paddingBottom: spacing.xl,
   },
-  hero: {
-    marginTop: spacing.xxl,
-    gap: spacing.md,
+  stage: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: spacing.lg,
+    paddingTop: spacing.xl,
+  },
+  diamondSlot: {
+    alignItems: 'flex-start',
+    marginBottom: spacing.sm,
   },
   brand: {
-    fontSize: 72,
-    lineHeight: 72,
-    letterSpacing: 2,
+    fontSize: 78,
+    lineHeight: 74,
+    letterSpacing: 1,
   },
   brandEl: {
     fontFamily: typography.display,
@@ -176,74 +247,85 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   tagline: {
+    marginTop: spacing.sm,
     fontFamily: typography.bodyBold,
-    color: colors.textMuted,
-    fontSize: 14,
-    letterSpacing: 4,
+    color: colors.secondary,
+    fontSize: 13,
+    letterSpacing: 5,
     textTransform: 'uppercase',
   },
   subtitle: {
+    marginTop: spacing.md,
     fontFamily: typography.body,
     color: colors.textMuted,
-    fontSize: 16,
-    lineHeight: 24,
-    maxWidth: 320,
+    fontSize: 18,
+    lineHeight: 28,
+    maxWidth: 300,
   },
-  actions: {
+  footer: {
+    paddingBottom: spacing.xl,
     gap: spacing.sm,
   },
-  primaryBtn: {
+  primaryHit: {
     backgroundColor: colors.primary,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radii.md,
+    minHeight: 58,
+    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 4,
   },
-  primaryBtnText: {
-    fontFamily: typography.bodyBold,
+  primaryHitText: {
+    fontFamily: typography.bodyBlack,
     color: colors.text,
-    fontSize: 16,
+    fontSize: 17,
+    letterSpacing: 0.4,
   },
-  googleBtn: {
-    marginTop: spacing.sm,
-    backgroundColor: colors.surface2,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radii.md,
-    alignItems: 'center',
+  googleHit: {
+    marginTop: spacing.md,
     minHeight: 52,
     justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
   },
-  googleBtnText: {
+  googleHitText: {
     fontFamily: typography.bodyBold,
     color: colors.text,
-    fontSize: 16,
+    fontSize: 15,
   },
-  secondaryBtn: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingVertical: spacing.md,
-    borderRadius: radii.md,
-    alignItems: 'center',
-  },
-  secondaryBtnText: {
+  support: {
     fontFamily: typography.body,
     color: colors.textMuted,
-    fontSize: 15,
+    fontSize: 13,
   },
-  hint: {
+  supportMuted: {
     fontFamily: typography.body,
     color: colors.textDim,
-    fontSize: 13,
+    fontSize: 12,
+  },
+  sessionEyebrow: {
+    fontFamily: typography.bodyBold,
+    color: colors.secondary,
+    fontSize: 12,
+    letterSpacing: 3,
+    textTransform: 'uppercase',
+    marginBottom: spacing.xs,
+  },
+  sessionName: {
+    fontFamily: typography.body,
+    color: colors.text,
+    fontSize: 16,
     marginBottom: spacing.sm,
   },
-  sessionLabel: {
-    fontFamily: typography.bodyBold,
-    color: colors.text,
-    fontSize: 15,
-    marginBottom: spacing.sm,
+  textAction: {
+    alignSelf: 'center',
+    paddingVertical: spacing.sm,
+  },
+  textActionLabel: {
+    fontFamily: typography.body,
+    color: colors.textDim,
+    fontSize: 14,
   },
   message: {
     fontFamily: typography.body,
@@ -252,30 +334,10 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   pressed: {
-    opacity: 0.85,
+    opacity: 0.88,
+    transform: [{ scale: 0.985 }],
   },
   disabled: {
-    opacity: 0.6,
-  },
-  meta: {
-    marginTop: spacing.lg,
-    gap: spacing.sm,
-    padding: spacing.lg,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: 'rgba(15,15,26,0.85)',
-  },
-  metaLabel: {
-    fontFamily: typography.bodyBold,
-    color: colors.primary,
-    fontSize: 13,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
-  metaNext: {
-    fontFamily: typography.body,
-    color: colors.text,
-    fontSize: 15,
+    opacity: 0.55,
   },
 });

@@ -99,14 +99,17 @@ Authorization lives in **RLS**, not only the client.
 
 ## Working with Cursor + Claude + humans
 
-- Respect Issue assignees — do not steal work from a human assignee
+- **Trello** assigns work to Partner / 3rd parties ([docs/TRELLO.md](docs/TRELLO.md))
+- **GitHub** holds PRs and CI
+- Respect Trello assignees — do not steal `Doing — Partner` / `Doing — Contributor` cards
 - Prefer Conventional Commits in English: `feat(scorer): …`
 - DoD for every change: `pnpm typecheck`, `pnpm lint`, relevant tests, PR review
-- New humans: read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) then this file
+- New humans: CONTRIBUTING → MEMORY → their Trello card
 
-## Brand
+## Brand & UX bar
 
-- Primary: `#ff4d00` · Accent: `#ff8c00` · BG: `#0a0a0f`
-- Display font: Bebas Neue · Body: readable sans (see theme tokens)
-- Sports scoreboard feel — not generic SaaS
+- Primary: `#ff4d00` · Accent: `#ff8c00` · BG night field
+- Display: Bebas Neue · Body: Inter
+- Entry and live screens must feel like a **ballpark scoreboard**, not a SaaS dashboard
+- Thumb-first actions; one dominant CTA; Spanish copy only via i18n
 - Reference: [docs/brand/elplay_identity.html](docs/brand/elplay_identity.html)

@@ -37,5 +37,6 @@ Read `MEMORY.md` and `AGENTS.md` before coding.
 - No `any`. Zod at boundaries. Type guards over `as`.
 - Handle Supabase `error` explicitly. Clean up Realtime channels.
 - RLS is the source of authz.
-- Active part only (see MEMORY). Respect Issue assignees.
+- Active part only (see MEMORY). Respect Trello assignees (Partner / Contributor).
 - Before done: `pnpm typecheck`, `pnpm lint`, tests when present.
+- UX: ballpark scoreboard feel; thumb-first; no generic SaaS entry screens.

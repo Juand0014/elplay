@@ -16,15 +16,12 @@ Requirements: Node ≥ 20, pnpm ≥ 9.
 ## Workflow
 
 1. Check the **active part** in MEMORY.md and the matching `specs/NN-*.spec.md`
-2. Pick an Issue assigned to you (or a `good-first-issue`)
-3. Branch: `feat/<part>-short-name` or `fix/short-name` (Cloud agents use `cursor/...-d9e6`)
+2. Take your **Trello** card (or ask PM to assign one) — see [TRELLO.md](TRELLO.md)
+3. Branch: `feat/<part>-short-name` or `fix/short-name`
 4. Implement against the spec and [ARCHITECTURE.md](ARCHITECTURE.md)
-5. Run locally:
-   - `pnpm typecheck`
-   - `pnpm lint`
-   - `pnpm test` (when tests exist for the area)
-6. Open a PR using the template — include “How to test”
-7. Wait for review (CODEOWNERS). Do not merge your own critical paths without a second look when possible
+5. Run locally: `pnpm typecheck` · `pnpm lint` · `pnpm test`
+6. Open a PR; move Trello card to Review
+7. After merge, move card to Done
 
 ## Language
 
@@ -32,16 +29,16 @@ Requirements: Node ≥ 20, pnpm ≥ 9.
 |---|---|
 | Source code, comments, commits, schema | English |
 | UI strings | Spanish via `src/i18n/es.ts` |
-| Specs / MEMORY product prose | English preferred for agents; Spanish OK in QA notes |
+| Trello card body QA notes | Spanish OK |
 
 ## Rules of engagement
 
-- **One active product part** — do not start Part N+1 until Part N DoD is green
-- One primary **assignee** per Issue
-- Agents (Cursor/Claude) must not overwrite work assigned to a human unless asked
+- **One active product part**
+- One primary **assignee** per Trello card
+- Agents must not overwrite Partner/Contributor Doing cards unless asked
 - Never commit secrets; only `EXPO_PUBLIC_*` in the client
 - Conventional Commits: `feat(scorer): add undo last play`
-
+- UX: sports scoreboard clarity, no generic dashboard chrome on entry/live/scorer
 ## PR expectations
 
 - Small, reviewable diffs preferred

@@ -16,20 +16,29 @@ How each role works on this repo. Humans and AI agents share the same rules.
 
 ## Cadence per part
 
-1. Spec written (`specs/NN-….spec.md`) → status Spec Ready
-2. Design Issue (if UI) → Partner / UX
-3. DB/RLS Issue → DBA track
-4. Implement Issues split by area → assignees
-5. QA Issue → someone who did **not** implement the core
-6. PM marks part Done in MEMORY.md and opens the next part
+1. Spec written (`specs/NN-….spec.md`) → Spec Ready
+2. **Trello card** assigned to Partner / 3rd party (see [TRELLO.md](TRELLO.md))
+3. Design / UX card if UI-heavy
+4. DB/RLS card → DBA track
+5. Implement → Review → GitHub PR
+6. QA by someone who did **not** implement the core
+7. PM marks part Done in MEMORY.md and opens the next part
+
+## Assigning 3rd parties
+
+- Invite them to the **Trello** board `ElPlay Build` (not required on GitHub until they open PRs)
+- One card per person in `Doing — Partner` or `Doing — Contributor`
+- Card must link the spec path and Done-when checklist
+- Agents never take those Doing lists unless the card explicitly says so
 
 ## Collaboration with Cursor + Claude
 
 - Both read MEMORY + AGENTS.md
-- Prefer Issues as the contract for “who does what”
+- Trello = human assignment · GitHub = code
 - If an agent and a human collide, **human assignee wins**; agent stops and documents
 
 ## Communication
 
-- Issue titles / commits: English
-- QA steps for Dominican field testing: Spanish is fine in the Issue body
+- Issue / Trello titles / commits: English
+- QA steps for Dominican field testing: Spanish is fine in the card body
+- UX bar: sports scoreboard clarity, thumb-first scorer, no generic SaaS chrome (see MEMORY brand + entry screen)
