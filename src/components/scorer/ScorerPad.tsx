@@ -1,19 +1,19 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { t } from '@/i18n';
-import { colors, spacing, typography } from '@/theme';
+import { t } from "@/i18n";
+import { colors, typography } from "@/theme";
 
 type PadButtonProps = {
   label: string;
   onPress: () => void;
-  tone?: 'default' | 'primary' | 'danger' | 'muted';
+  tone?: "default" | "primary" | "danger" | "muted";
   disabled?: boolean;
 };
 
 function PadButton({
   label,
   onPress,
-  tone = 'default',
+  tone = "default",
   disabled,
 }: PadButtonProps) {
   return (
@@ -23,9 +23,9 @@ function PadButton({
       onPress={onPress}
       style={({ pressed }) => [
         styles.btn,
-        tone === 'primary' && styles.primary,
-        tone === 'danger' && styles.danger,
-        tone === 'muted' && styles.muted,
+        tone === "primary" && styles.primary,
+        tone === "danger" && styles.danger,
+        tone === "muted" && styles.muted,
         pressed && styles.pressed,
         disabled && styles.disabled,
       ]}
@@ -56,29 +56,37 @@ export function ScorerPad(props: ScorerPadProps) {
   return (
     <View style={styles.wrap}>
       <View style={styles.row}>
-        <PadButton label={t('scorer.ball')} onPress={props.onBall} disabled={d} />
         <PadButton
-          label={t('scorer.strike')}
+          label={t("scorer.ball")}
+          onPress={props.onBall}
+          disabled={d}
+        />
+        <PadButton
+          label={t("scorer.strike")}
           onPress={props.onStrike}
           disabled={d}
         />
         <PadButton
-          label={t('scorer.out')}
+          label={t("scorer.out")}
           onPress={props.onOut}
           tone="danger"
           disabled={d}
         />
       </View>
       <View style={styles.row}>
-        <PadButton label={t('scorer.walk')} onPress={props.onWalk} disabled={d} />
         <PadButton
-          label={t('scorer.single')}
+          label={t("scorer.walk")}
+          onPress={props.onWalk}
+          disabled={d}
+        />
+        <PadButton
+          label={t("scorer.single")}
           onPress={props.onSingle}
           tone="primary"
           disabled={d}
         />
         <PadButton
-          label={t('scorer.double')}
+          label={t("scorer.double")}
           onPress={props.onDouble}
           tone="primary"
           disabled={d}
@@ -86,28 +94,32 @@ export function ScorerPad(props: ScorerPadProps) {
       </View>
       <View style={styles.row}>
         <PadButton
-          label={t('scorer.triple')}
+          label={t("scorer.triple")}
           onPress={props.onTriple}
           tone="primary"
           disabled={d}
         />
         <PadButton
-          label={t('scorer.homer')}
+          label={t("scorer.homer")}
           onPress={props.onHomer}
           tone="primary"
           disabled={d}
         />
-        <PadButton label={t('scorer.run')} onPress={props.onRun} disabled={d} />
+        <PadButton label={t("scorer.run")} onPress={props.onRun} disabled={d} />
       </View>
       <View style={styles.row}>
-        <PadButton label={t('scorer.half')} onPress={props.onHalf} disabled={d} />
         <PadButton
-          label={t('scorer.undo')}
+          label={t("scorer.half")}
+          onPress={props.onHalf}
+          disabled={d}
+        />
+        <PadButton
+          label={t("scorer.undo")}
           onPress={props.onUndo}
           tone="muted"
         />
         <PadButton
-          label={t('scorer.finish')}
+          label={t("scorer.finish")}
           onPress={props.onFinish}
           tone="muted"
           disabled={d}
@@ -119,40 +131,42 @@ export function ScorerPad(props: ScorerPadProps) {
 
 const styles = StyleSheet.create({
   wrap: {
-    gap: spacing.sm,
+    gap: 10,
   },
   row: {
-    flexDirection: 'row',
-    gap: spacing.sm,
+    flexDirection: "row",
+    gap: 10,
   },
   btn: {
     flex: 1,
-    minHeight: 52,
-    borderRadius: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
+    minHeight: 58,
+    borderRadius: 6,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.surface2,
     borderWidth: 1,
     borderColor: colors.border,
   },
   primary: {
-    backgroundColor: 'rgba(255,77,0,0.2)',
+    backgroundColor: "rgba(255,77,0,0.2)",
     borderColor: colors.primary,
   },
   danger: {
-    backgroundColor: 'rgba(239,68,68,0.15)',
+    backgroundColor: "rgba(239,68,68,0.15)",
     borderColor: colors.danger,
   },
   muted: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   btnText: {
     fontFamily: typography.bodyBold,
     color: colors.text,
-    fontSize: 14,
+    fontSize: 16,
+    textAlign: "center",
   },
   pressed: {
     opacity: 0.85,
+    transform: [{ scale: 0.97 }],
   },
   disabled: {
     opacity: 0.4,

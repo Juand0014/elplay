@@ -52,7 +52,7 @@ export function DiamondMark({
         />
         <Polygon
           points="40,18 62,40 40,62 18,40"
-          fill="rgba(255,77,0,0.10)"
+          fill="rgba(255,77,0,0.18)"
           stroke={colors.secondary}
           strokeWidth={1.2}
         />
@@ -101,18 +101,21 @@ export function DiamondMark({
       {/* Jersey number sits in the middle of the diamond — the running player */}
       <View style={styles.center} pointerEvents="none">
         {hasRunner ? (
-          <Text
-            style={[
-              styles.jersey,
-              {
-                fontSize,
-                lineHeight: fontSize * 1.05,
-              },
-            ]}
-            numberOfLines={1}
-          >
-            {numberText}
-          </Text>
+          <>
+            <View style={styles.plate} />
+            <Text
+              style={[
+                styles.jersey,
+                {
+                  fontSize,
+                  lineHeight: fontSize * 1.05,
+                },
+              ]}
+              numberOfLines={1}
+            >
+              {numberText}
+            </Text>
+          </>
         ) : (
           <View style={styles.emptyDot} />
         )}
@@ -130,6 +133,13 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  plate: {
+    position: 'absolute',
+    width: '55%',
+    height: '55%',
+    borderRadius: 999,
+    backgroundColor: 'rgba(10,10,15,0.75)',
   },
   jersey: {
     fontFamily: typography.display,

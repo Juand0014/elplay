@@ -1,5 +1,5 @@
-import { DEFAULT_GAME_CONFIG, GameStatus, InningHalf, PlayType } from '@/types';
-import type { BasesState, Game, GamePlay } from '@/types';
+import type { BasesState, Game, GamePlay } from "@/types";
+import { DEFAULT_GAME_CONFIG, GameStatus, InningHalf, PlayType } from "@/types";
 
 function newId(): string {
   return `g_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
@@ -7,7 +7,8 @@ function newId(): string {
 
 function newToken(): string {
   return (
-    Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6)
+    Math.random().toString(36).slice(2, 10) +
+    Math.random().toString(36).slice(2, 6)
   );
 }
 
@@ -113,7 +114,7 @@ export function bumpStrikes(game: Game): Game {
     return recordOut(
       { ...game, balls: 0, strikes: 0 },
       PlayType.Strikeout,
-      'Ponche',
+      "Ponche",
     );
   }
   return { ...game, strikes, updatedAt: new Date().toISOString() };
@@ -122,7 +123,7 @@ export function bumpStrikes(game: Game): Game {
 export function recordOut(
   game: Game,
   playType: PlayType = PlayType.Out,
-  label = 'Out',
+  label = "Out",
 ): Game {
   if (game.status !== GameStatus.Live) return game;
   const outs = game.outs + 1;
@@ -145,7 +146,7 @@ export function recordOut(
 
 export function recordWalk(game: Game): Game {
   if (game.status !== GameStatus.Live) return game;
-  const batter = game.runnerJerseyNumber ?? 'BB';
+  const batter = game.runnerJerseyNumber ?? "BB";
   let runs = 0;
   let bases = { ...game.bases };
 
@@ -180,7 +181,7 @@ export function recordWalk(game: Game): Game {
     runnerJerseyNumber: null,
   };
   next = addRuns(next, runs);
-  return appendPlay(next, PlayType.Walk, 'Base por bolas', runs);
+  return appendPlay(next, PlayType.Walk, "Base por bolas", runs);
 }
 
 export function recordHit(
@@ -192,7 +193,7 @@ export function recordHit(
     | PlayType.HomeRun,
 ): Game {
   if (game.status !== GameStatus.Live) return game;
-  const batter = game.runnerJerseyNumber ?? '?';
+  const batter = game.runnerJerseyNumber ?? "?";
   let bases = createEmptyBases();
   let runs = 0;
 
@@ -235,10 +236,10 @@ export function recordHit(
   next = addRuns(next, runs);
 
   const labels = {
-    [PlayType.Single]: 'Sencillo',
-    [PlayType.Double]: 'Doble',
-    [PlayType.Triple]: 'Triple',
-    [PlayType.HomeRun]: 'Jonrón',
+    [PlayType.Single]: "Sencillo",
+    [PlayType.Double]: "Doble",
+    [PlayType.Triple]: "Triple",
+    [PlayType.HomeRun]: "Jonrón",
   } as const;
 
   return appendPlay(next, playType, labels[playType], runs);
@@ -247,7 +248,7 @@ export function recordHit(
 export function addManualRun(game: Game): Game {
   if (game.status !== GameStatus.Live) return game;
   const next = addRuns(game, 1);
-  return appendPlay(next, PlayType.Run, 'Carrera', 1);
+  return appendPlay(next, PlayType.Run, "Carrera", 1);
 }
 
 export function advanceHalfInning(game: Game): Game {
@@ -270,7 +271,7 @@ export function advanceHalfInning(game: Game): Game {
     bases: createEmptyBases(),
     runnerJerseyNumber: null,
   };
-  const halfLabel = half === InningHalf.Top ? 'Alta' : 'Baja';
+  const halfLabel = half === InningHalf.Top ? "Alta" : "Baja";
   return appendPlay(cleared, PlayType.AdvanceHalf, `${halfLabel} ${inning}`);
 }
 
