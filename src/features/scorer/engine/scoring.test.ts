@@ -70,4 +70,19 @@ describe('scorer engine', () => {
     game = addManualRun(game);
     expect(game.homeRuns).toBe(1);
   });
+
+  it('counts hits on the batting side', () => {
+    let game = createGame({ homeTeamName: 'A', awayTeamName: 'B' });
+    game = { ...game, runnerJerseyNumber: '7' };
+    game = recordHit(game, PlayType.Single);
+    expect(game.awayHits).toBe(1);
+    expect(game.homeHits).toBe(0);
+  });
+
+  it('sets invite expiry ~24h ahead', () => {
+    const game = createGame({ homeTeamName: 'A', awayTeamName: 'B' });
+    const created = new Date(game.createdAt).getTime();
+    const expires = new Date(game.inviteExpiresAt).getTime();
+    expect(expires - created).toBeGreaterThan(23 * 60 * 60 * 1000);
+  });
 });

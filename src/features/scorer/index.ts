@@ -3,6 +3,7 @@ import {
   advanceHalfInning,
   bumpBalls,
   bumpStrikes,
+  claimTemporaryScorer,
   createEmptyBases,
   createGame,
   endGame,
@@ -13,6 +14,7 @@ import {
   setRunner,
 } from './engine/scoring';
 export { useScorerStore } from './store/scorer.store';
+export { subscribeScorerSync } from './sync/scorer-broadcast';
 
 export const scorerEngine = {
   createGame,
@@ -27,4 +29,5 @@ export const scorerEngine = {
   addManualRun,
   advanceHalfInning,
   endGame,
+  claimTemporaryScorer,
 };

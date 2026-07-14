@@ -61,8 +61,8 @@ Anyone can use ElPlay as a **guest** (no registration). Accounts are optional an
 
 ## Definition of Done
 
-- [ ] Guest path works with zero account
-- [ ] Google sign-in works on web (and native smoke)
-- [ ] Session survives reload
-- [ ] Guest can still open scorer invite links
-- [ ] `typecheck` + `lint` clean
+- [x] Guest path works with zero account
+- [x] Google sign-in works on web (and native smoke)
+- [x] Session survives reload
+- [x] Guest can still open scorer invite links
+- [x] `typecheck` + `lint` clean

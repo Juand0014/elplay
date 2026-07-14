@@ -4,12 +4,13 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { BasesState, Game } from '@/types';
-import { PlayType } from '@/types';
+import { GameType, PlayType } from '@/types';
 import {
   addManualRun,
   advanceHalfInning,
   bumpBalls,
   bumpStrikes,
+  claimTemporaryScorer,
   createGame,
   endGame,
   recordHit,
@@ -18,6 +19,7 @@ import {
   setBase,
   setRunner,
 } from '@/features/scorer/engine/scoring';
+import { notifyScorerGamesChanged } from '@/features/scorer/sync/scorer-broadcast';
 
 type ScorerState = {
   games: Record<string, Game>;
@@ -45,6 +47,8 @@ type ScorerState = {
     jersey: string | null,
   ) => void;
   finish: (gameId: string) => void;
+  claimInviteScorer: (gameId: string, name: string) => void;
+  upsertRemoteGame: (game: Game) => void;
 };
 
 const webStorage = {
@@ -85,6 +89,7 @@ export const useScorerStore = create<ScorerState>()(
           games: { ...state.games, [game.id]: game },
           history: { ...state.history, [game.id]: [] },
         }));
+        notifyScorerGamesChanged();
         return game;
       },
       getGame: (id) => get().games[id],
@@ -98,6 +103,7 @@ export const useScorerStore = create<ScorerState>()(
           games: { ...state.games, [gameId]: next },
           history: pushHistory(state.history, gameId, current),
         }));
+        notifyScorerGamesChanged();
       },
       undo: (gameId) => {
         const stack = get().history[gameId] ?? [];
@@ -111,6 +117,7 @@ export const useScorerStore = create<ScorerState>()(
             [gameId]: stack.slice(0, -1),
           },
         }));
+        notifyScorerGamesChanged();
       },
       bumpBalls: (gameId) => get().apply(gameId, bumpBalls),
       bumpStrikes: (gameId) => get().apply(gameId, bumpStrikes),
@@ -125,6 +132,21 @@ export const useScorerStore = create<ScorerState>()(
       setBaseOccupant: (gameId, base, jersey) =>
         get().apply(gameId, (g) => setBase(g, base, jersey)),
       finish: (gameId) => get().apply(gameId, endGame),
+      claimInviteScorer: (gameId, name) =>
+        get().apply(gameId, (g) => claimTemporaryScorer(g, name)),
+      upsertRemoteGame: (game) => {
+        const current = get().games[game.id];
+        if (
+          current &&
+          new Date(current.updatedAt).getTime() >=
+            new Date(game.updatedAt).getTime()
+        ) {
+          return;
+        }
+        set((state) => ({
+          games: { ...state.games, [game.id]: game },
+        }));
+      },
     }),
     {
       name: 'elplay-scorer',
@@ -133,6 +155,39 @@ export const useScorerStore = create<ScorerState>()(
         games: state.games,
         history: state.history,
       }),
+      merge: (persisted, current) => {
+        const p = persisted as Partial<ScorerState> | undefined;
+        const games = { ...(p?.games ?? {}) };
+        // Migrate Part 01 local games missing Part 02/05 fields.
+        for (const id of Object.keys(games)) {
+          const g = games[id];
+          if (!g) continue;
+          games[id] = normalizeLegacyGame(g);
+        }
+        return {
+          ...current,
+          ...p,
+          games,
+          history: p?.history ?? {},
+        };
+      },
     },
   ),
 );
+
+function normalizeLegacyGame(game: Game): Game {
+  const now = new Date();
+  return {
+    ...game,
+    inviteExpiresAt:
+      game.inviteExpiresAt ??
+      new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(),
+    homeHits: game.homeHits ?? 0,
+    awayHits: game.awayHits ?? 0,
+    homeErrors: game.homeErrors ?? 0,
+    awayErrors: game.awayErrors ?? 0,
+    gameType: game.gameType ?? GameType.League,
+    leagueId: game.leagueId ?? null,
+    temporaryScorerName: game.temporaryScorerName ?? null,
+  };
+}

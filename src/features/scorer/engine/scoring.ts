@@ -1,4 +1,11 @@
-import { DEFAULT_GAME_CONFIG, GameStatus, InningHalf, PlayType } from '@/types';
+import {
+  DEFAULT_GAME_CONFIG,
+  GameStatus,
+  GameType,
+  InningHalf,
+  INVITE_TTL_HOURS,
+  PlayType,
+} from '@/types';
 import type { BasesState, Game, GamePlay } from '@/types';
 
 function newId(): string {
@@ -11,6 +18,12 @@ function newToken(): string {
   );
 }
 
+function inviteExpiresAtFrom(now: Date): string {
+  return new Date(
+    now.getTime() + INVITE_TTL_HOURS * 60 * 60 * 1000,
+  ).toISOString();
+}
+
 export function createEmptyBases(): BasesState {
   return { first: null, second: null, third: null };
 }
@@ -18,15 +31,23 @@ export function createEmptyBases(): BasesState {
 export function createGame(input: {
   homeTeamName: string;
   awayTeamName: string;
+  gameType?: GameType;
+  leagueId?: string | null;
 }): Game {
-  const now = new Date().toISOString();
+  const now = new Date();
+  const iso = now.toISOString();
   return {
     id: newId(),
     inviteToken: newToken(),
+    inviteExpiresAt: inviteExpiresAtFrom(now),
     homeTeamName: input.homeTeamName.trim(),
     awayTeamName: input.awayTeamName.trim(),
     homeRuns: 0,
     awayRuns: 0,
+    homeHits: 0,
+    awayHits: 0,
+    homeErrors: 0,
+    awayErrors: 0,
     inning: 1,
     half: InningHalf.Top,
     outs: 0,
@@ -35,14 +56,35 @@ export function createGame(input: {
     bases: createEmptyBases(),
     runnerJerseyNumber: null,
     status: GameStatus.Live,
+    gameType: input.gameType ?? GameType.League,
+    leagueId: input.leagueId ?? null,
+    temporaryScorerName: null,
     plays: [],
-    createdAt: now,
-    updatedAt: now,
+    createdAt: iso,
+    updatedAt: iso,
   };
 }
 
-function battingIsAway(half: InningHalf): boolean {
+function battingIsAwaySide(half: InningHalf): boolean {
   return half === InningHalf.Top;
+}
+
+function bumpHits(game: Game, hits = 1): Game {
+  if (hits <= 0) return game;
+  if (battingIsAwaySide(game.half)) {
+    return { ...game, awayHits: game.awayHits + hits };
+  }
+  return { ...game, homeHits: game.homeHits + hits };
+}
+
+export function claimTemporaryScorer(game: Game, name: string): Game {
+  const trimmed = name.trim();
+  if (!trimmed) return game;
+  return {
+    ...game,
+    temporaryScorerName: trimmed,
+    updatedAt: new Date().toISOString(),
+  };
 }
 
 function appendPlay(
@@ -68,7 +110,7 @@ function appendPlay(
 
 function addRuns(game: Game, runs: number): Game {
   if (runs <= 0) return game;
-  if (battingIsAway(game.half)) {
+  if (battingIsAwaySide(game.half)) {
     return { ...game, awayRuns: game.awayRuns + runs };
   }
   return { ...game, homeRuns: game.homeRuns + runs };
@@ -232,6 +274,7 @@ export function recordHit(
     strikes: 0,
     runnerJerseyNumber: null,
   };
+  next = bumpHits(next, 1);
   next = addRuns(next, runs);
 
   const labels = {

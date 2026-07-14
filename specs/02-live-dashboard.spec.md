@@ -15,7 +15,7 @@ Public viewers see a live game summary (not the scorer pad) and a dashboard of g
 
 ## DoD
 
-- [ ] Viewer on second device updates without refresh  
-- [ ] Internal games excluded  
-- [ ] Indexes used for live list  
-- [ ] Channel cleanup on unmount  
+- [x] Viewer on second device updates without refresh  
+- [x] Internal games excluded  
+- [x] Indexes used for live list  
+- [x] Channel cleanup on unmount  

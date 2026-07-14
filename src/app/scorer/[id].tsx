@@ -1,5 +1,5 @@
 import * as Clipboard from 'expo-clipboard';
-import { router, useLocalSearchParams } from 'expo-router';
+import { type Href, router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Pressable,
@@ -15,7 +15,7 @@ import { DiamondMark } from '@/components/ui';
 import { ScoreBoard, ScorerPad } from '@/components/scorer';
 import { useScorerStore } from '@/features/scorer';
 import { t } from '@/i18n';
-import { GameStatus, PlayType } from '@/types';
+import { GameStatus, PlayType, isInviteExpired } from '@/types';
 import { colors, spacing, typography } from '@/theme';
 
 export default function ScorerScreen() {
@@ -25,6 +25,7 @@ export default function ScorerScreen() {
   const [copied, setCopied] = useState(false);
 
   const finished = game?.status === GameStatus.Done;
+  const inviteDead = game ? isInviteExpired(game) : false;
   const playsNewestFirst = useMemo(
     () => (game ? [...game.plays].reverse().slice(0, 12) : []),
     [game],
@@ -51,13 +52,23 @@ export default function ScorerScreen() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const padDisabled = finished || inviteDead;
+
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <Text style={styles.title}>{t('scorer.title')}</Text>
+          {game.temporaryScorerName ? (
+            <Text style={styles.scorerAs}>
+              {t('scorer.scorerAs')} {game.temporaryScorerName}
+            </Text>
+          ) : null}
           {finished ? (
             <Text style={styles.over}>{t('scorer.gameOver')}</Text>
+          ) : null}
+          {inviteDead && !finished ? (
+            <Text style={styles.over}>{t('scorer.inviteExpired')}</Text>
           ) : null}
         </View>
 
@@ -74,19 +85,19 @@ export default function ScorerScreen() {
               label={t('scorer.base3')}
               value={game.bases.third}
               onChange={(v) => store.setBaseOccupant(game.id, 'third', v)}
-              disabled={finished}
+              disabled={padDisabled}
             />
             <BaseField
               label={t('scorer.base2')}
               value={game.bases.second}
               onChange={(v) => store.setBaseOccupant(game.id, 'second', v)}
-              disabled={finished}
+              disabled={padDisabled}
             />
             <BaseField
               label={t('scorer.base1')}
               value={game.bases.first}
               onChange={(v) => store.setBaseOccupant(game.id, 'first', v)}
-              disabled={finished}
+              disabled={padDisabled}
             />
           </View>
         </View>
@@ -98,12 +109,12 @@ export default function ScorerScreen() {
           placeholder={t('scorer.runnerPlaceholder')}
           placeholderTextColor={colors.textDim}
           keyboardType="number-pad"
-          editable={!finished}
+          editable={!padDisabled}
           style={styles.input}
         />
 
         <ScorerPad
-          disabled={finished}
+          disabled={padDisabled}
           onBall={() => store.bumpBalls(game.id)}
           onStrike={() => store.bumpStrikes(game.id)}
           onOut={() => store.recordOut(game.id)}
@@ -127,6 +138,13 @@ export default function ScorerScreen() {
           <Text style={styles.inviteText}>
             {copied ? t('scorer.inviteCopied') : t('scorer.invite')}
           </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => router.push(`/live/${game.id}` as Href)}
+          style={styles.invite}
+        >
+          <Text style={styles.inviteText}>{t('scorer.openLive')}</Text>
         </Pressable>
 
         <Text style={styles.playsTitle}>{t('scorer.plays')}</Text>
@@ -189,6 +207,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontFamily: typography.bodyBold,
     color: colors.secondary,
+  },
+  scorerAs: {
+    marginTop: 4,
+    fontFamily: typography.body,
+    color: colors.textMuted,
+    fontSize: 14,
   },
   diamondRow: {
     flexDirection: 'row',

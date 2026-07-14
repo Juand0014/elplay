@@ -14,3 +14,6 @@ export const FINISHED_GAME_STATUSES = [
   GameStatus.Done,
   GameStatus.Knockout,
 ] as const;
+
+/** Temporary scorer invite links expire after this many hours (Part 05). */
+export const INVITE_TTL_HOURS = 24;
