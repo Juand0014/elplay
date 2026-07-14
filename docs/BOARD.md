@@ -1,19 +1,22 @@
 # ElPlay Build Board
 
-**Trello (live):** https://trello.com/b/C6kNPrzX/elplay
+**Trello:** https://trello.com/b/C6kNPrzX/elplay
 
-- Humans / 3rd parties: assign on Trello  
-- Code: GitHub PRs  
-- Agents: MEMORY.md · do not steal Partner/Contributor Doing cards  
+## Asignaciones
 
-## Active now
-
-| Card | List | Who |
+| Persona | Trello user | Rol |
 |---|---|---|
-| Confirm `pnpm web` | Doing — Partner | Partner |
-| Polish scorer pad UX | Doing — Partner | Partner |
-| QA 2–3 innings | Doing — Partner | Partner / Owner |
-| Invite Partner to board | Doing — Owner | Owner |
-| Optional Supabase + Google | Doing — Owner | Owner |
+| Juan David Matos | `juandavidmatos1` | Owner |
+| Yariel | `yariel` | Partner |
 
-Part 00 Foundations + Part 01 scorer core → **Done** on the board (shipped on `main`).
+## Ahora (`priority:now` / Doing)
+
+| Card | Quién |
+|---|---|
+| Confirm local env (`pnpm web`) | **Yariel** |
+| Polish scorer pad UX | **Yariel** |
+| QA 2–3 innings | **Yariel + Juan** |
+| Optional Supabase + Google | **Juan** |
+| Sync scorer → Supabase | **Juan** (Spec Ready) |
+
+Part 00 + scorer core → Done. Invite Partner card → Done (Yariel ya en el board).
