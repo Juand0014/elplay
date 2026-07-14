@@ -1,15 +1,15 @@
 # ElPlay — Project Memory
 
 > Canonical context for **Cursor** and **Claude Code**. Read this before any task.
-> Active part: **01 Scorer MVP**. Part 00 Foundations = done on branch.
-> Master roadmap: [docs/PLAN.md](docs/PLAN.md) · Trello: [docs/TRELLO.md](docs/TRELLO.md)
+> Active part: **00 Foundations** — fresh team start (web + mobile must run).
+> Stages map: [docs/STAGES.md](docs/STAGES.md) · Plan: [docs/PLAN.md](docs/PLAN.md) · Trello: [docs/TRELLO.md](docs/TRELLO.md)
 
 ## What ElPlay is
 
 Mobile-first PWA for softball league management in the Dominican Republic:
 live scoring, public live boards, leagues, teams, standings, internal practice games, and (later) tournaments.
 
-There is **no v1 / v2**. One product, one repo, one app.
+There is **no v1 / v2**. One product, one repo, one Expo app (web + mobile).
 
 ## Stack
 
@@ -45,7 +45,7 @@ src/validators/    # Zod
 db/                # schema reference
 supabase/          # migrations + config
 specs/             # one spec per part
-docs/              # ARCHITECTURE, CONTRIBUTING, TEAM_PLAYBOOK
+docs/              # STAGES, ARCHITECTURE, CONTRIBUTING, TEAM_PLAYBOOK
 ```
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for boundaries and scale rules.
@@ -55,17 +55,17 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for boundaries and scale rules.
 1. Game types: `league` | `tournament` | `internal`
 2. **Never** mix internal-game stats with official stats
 3. Internal games **never** appear on the public live dashboard
-4. Mercy / KO rules evaluate when a **half-inning closes** (not only on runs). Hierarchy: league → tournament → game (most specific wins)
-5. Default regulation length: **7 innings** (WBSC softball baseline); leagues may override
+4. Mercy / KO rules evaluate when a **half-inning closes**. Hierarchy: league → tournament → game
+5. Default regulation length: **7 innings** (WBSC softball baseline)
 6. Tournament may exist without league; game may exist without tournament
 7. Batting stats AVG/OBP/SLG/OPS show `.---` when AB = 0
 
 ## Access model (guest + Google)
 
-- **Guest is first-class:** anyone can enter without registering — view live, use scorer invite links, and (Part 01) create/score quick games.
-- **Primary auth = Google** via Supabase OAuth (no email/password wall for MVP).
-- Guest cannot become league leader / captain until they sign in with Google (Part 05 roles).
-- Optional later: Apple Sign-In, email magic link — not MVP.
+- **Guest is first-class** (Part 01+): view live, invite scorer, create quick games
+- **Primary auth = Google** via Supabase OAuth (Part 03)
+- Guest cannot become league leader / captain until Google sign-in (Part 05)
+- Optional later: Apple Sign-In, email magic link
 
 ## Roles (product)
 
@@ -84,10 +84,10 @@ Authorization lives in **RLS**, not only the client.
 
 | Part | Spec | Status |
 |---|---|---|
-| 00 | Foundations | **DONE** (branch) |
-| 01 | Scorer MVP (guest-friendly, no forced login) | **ACTIVE** |
+| 00 | Foundations (web + mobile runs) | **ACTIVE** |
+| 01 | Scorer MVP | Next (code may already exist on main — validate DoD) |
 | 02 | Live game + live dashboard | Waiting |
-| 03 | Guest session + **Google Auth** | Waiting (shell exists) |
+| 03 | Guest session + Google Auth | Waiting |
 | 05 | Roles + RLS + temp scorer URL | Waiting |
 | 06 | Leagues / teams / roster | Waiting |
 | 07 | Standings + KO engine | Waiting |
@@ -99,18 +99,18 @@ Authorization lives in **RLS**, not only the client.
 
 ## Working with Cursor + Claude + humans
 
-- **Trello** assigns work to Partner / 3rd parties ([docs/TRELLO.md](docs/TRELLO.md))
+- **Trello** assigns work ([docs/TRELLO.md](docs/TRELLO.md)) — bootstrap with `pnpm trello:bootstrap`
 - **GitHub** holds PRs and CI
 - Respect Trello assignees — do not steal `Doing — Partner` / `Doing — Contributor` cards
-- Prefer Conventional Commits in English: `feat(scorer): …`
-- DoD for every change: `pnpm typecheck`, `pnpm lint`, relevant tests, PR review
-- New humans: CONTRIBUTING → MEMORY → their Trello card
+- Prefer Conventional Commits in English
+- DoD: `pnpm typecheck`, `pnpm lint`, relevant tests, PR review
+- New humans: README → START_HERE → STAGES → their Trello card
 
 ## Brand & UX bar
 
 - Primary: `#ff4d00` · Accent: `#ff8c00` · BG night field
 - Display: Bebas Neue · Body: Inter
-- Entry and live screens must feel like a **ballpark scoreboard**, not a SaaS dashboard
-- **Diamond rule:** the center of the infield diamond always shows the **jersey number of the player running** (`DiamondMark` `runnerJerseyNumber`). Bases hold occupancy; the middle is the active runner.
+- Entry and live screens must feel like a **ballpark scoreboard**
+- **Diamond rule:** center shows the **jersey number of the player running**
 - Thumb-first actions; one dominant CTA; Spanish copy only via i18n
 - Reference: [docs/brand/elplay_identity.html](docs/brand/elplay_identity.html)

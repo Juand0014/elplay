@@ -5,11 +5,12 @@ You are working on **ElPlay** with Cursor and/or Claude Code in the same repo.
 ## Required reading (in order)
 
 1. [MEMORY.md](MEMORY.md) — project memory (canonical)
-2. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — structure, scale, boundaries
-3. [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — how humans and agents contribute
-4. [docs/TEAM_PLAYBOOK.md](docs/TEAM_PLAYBOOK.md) — role responsibilities
-5. Active spec under `specs/` for the current part
-6. [docs/TRELLO.md](docs/TRELLO.md) — assigning Partner / 3rd parties
+2. [docs/STAGES.md](docs/STAGES.md) — human stage map (fresh start)
+3. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — structure, scale, boundaries
+4. [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — how humans and agents contribute
+5. [docs/TEAM_PLAYBOOK.md](docs/TEAM_PLAYBOOK.md) — role responsibilities
+6. Active spec under `specs/` for the current part
+7. [docs/TRELLO.md](docs/TRELLO.md) — assigning Partner / 3rd parties
 
 ## Hard rules
 
@@ -25,5 +26,6 @@ You are working on **ElPlay** with Cursor and/or Claude Code in the same repo.
 
 ## Kickoff line
 
-Active part = **01 Scorer MVP**. Part 00 Foundations is done.  
-Auth: guest first-class + Google (Part 03). Assign humans via **Trello**.
+Active part = **00 Foundations** (fresh start — web + mobile must run).  
+Next = Part 01 Scorer MVP. Auth later: guest + Google (Part 03).  
+Assign humans via **Trello** (`pnpm trello:bootstrap` with API key/token).

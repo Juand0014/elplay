@@ -37,9 +37,11 @@ Clean ElPlay app shell: Expo SDK 54 PWA, feature-first folders, theme tokens, Sp
 
 ## Definition of Done
 
-- [ ] `pnpm install` works
-- [ ] `pnpm typecheck` passes
-- [ ] `pnpm lint` passes (or is wired and clean)
-- [ ] `pnpm web` shows ElPlay branded home (Spanish copy via i18n)
-- [ ] MEMORY marks part 00; CONTRIBUTING readable by a new contributor
-- [ ] No legacy `apps/` / `packages/` monorepo code remains
+- [x] `pnpm install` works
+- [x] `pnpm typecheck` passes
+- [x] `pnpm lint` passes (or is wired and clean)
+- [x] `pnpm web` shows ElPlay branded home (Spanish copy via i18n)
+- [ ] Partner confirms `pnpm start` / Expo Go (mobile)
+- [x] MEMORY marks part 00; CONTRIBUTING readable by a new contributor
+- [x] No legacy `apps/` / `packages/` monorepo code remains
+- [x] Stages documented in README + `docs/STAGES.md`
