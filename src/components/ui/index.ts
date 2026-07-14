@@ -1,0 +1,1 @@
+export { DiamondMark } from './DiamondMark';

@@ -1,0 +1,9 @@
+# ElPlay CODEOWNERS
+# Require review on architecture-sensitive paths when possible.
+
+* @Juand0014
+
+/src/features/ @Juand0014
+/supabase/migrations/ @Juand0014
+/docs/ARCHITECTURE.md @Juand0014
+/MEMORY.md @Juand0014

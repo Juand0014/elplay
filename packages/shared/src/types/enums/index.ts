@@ -1,5 +1,0 @@
-export * from './partido.enum'
-export * from './jugador.enum'
-export * from './torneo.enum'
-export * from './auth.enum'
-export * from './apunte.enum'

@@ -1,0 +1,43 @@
+---
+description: ElPlay — always-on project rules for Cursor (and shared with Claude via MEMORY)
+alwaysApply: true
+---
+
+# ElPlay agent rules
+
+Read `MEMORY.md` and `AGENTS.md` before coding.
+
+## Zero
+
+- One product: **ElPlay**. No v1/v2 naming.
+- Expo **SDK 54** docs: https://docs.expo.dev/versions/v54.0.0/
+- Code/comments/commits/schema: **English**. UI: **Spanish** only via `src/i18n/es.ts`.
+
+## Structure
+
+- Thin routes in `src/app/`
+- Domain in `src/features/<name>/`
+- Tokens in `src/theme/` — never hardcode colors/spacing
+- Follow `docs/ARCHITECTURE.md` boundaries
+
+## Access
+
+- Guest entry without registration is first-class
+- Primary auth is **Google** (Supabase OAuth); no email/password wall for MVP
+
+## Domain
+
+- Game types: league | tournament | internal
+- Internal stats never mix with official; internal never on public live
+- KO / mercy on half-inning close; hierarchy league → tournament → game
+- Default 7 innings unless league overrides
+
+## Quality
+
+- No `any`. Zod at boundaries. Type guards over `as`.
+- Handle Supabase `error` explicitly. Clean up Realtime channels.
+- RLS is the source of authz.
+- Active part only (see MEMORY). Respect Trello assignees (Partner / Contributor).
+- Before done: `pnpm typecheck`, `pnpm lint`, tests when present.
+- UX: ballpark scoreboard feel; thumb-first; no generic SaaS entry screens.
+- Diamond center = jersey number of the running player (`runnerJerseyNumber`).

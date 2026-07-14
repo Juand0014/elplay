@@ -1,6 +1,0 @@
-export * from './liga.interface'
-export * from './equipo.interface'
-export * from './jugador.interface'
-export * from './partido.interface'
-export * from './torneo.interface'
-export * from './apunte.interface'
