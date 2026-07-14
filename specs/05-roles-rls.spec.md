@@ -13,6 +13,6 @@ Guest · Temporary scorer · Assigned scorer · Player · Team captain · League
 
 ## DoD
 
-- [ ] Invite token expires / single-game scoped  
-- [ ] Matrix tested manually  
-- [ ] Policies in migrations, not UI-only  
+- [x] Invite token expires / single-game scoped  
+- [x] Matrix tested manually  
+- [x] Policies in migrations, not UI-only  

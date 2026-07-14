@@ -1,7 +1,7 @@
 # ElPlay — Project Memory
 
 > Canonical context for **Cursor** and **Claude Code**. Read this before any task.
-> Active part: **01 Scorer MVP**. Part 00 Foundations = done on branch.
+> Active part: **02 Live** complete on branch; **03–05 Auth/Roles** shipping. Parts 00–01 = done.
 > Master roadmap: [docs/PLAN.md](docs/PLAN.md) · Trello: [docs/TRELLO.md](docs/TRELLO.md)
 
 ## What ElPlay is
@@ -84,18 +84,18 @@ Authorization lives in **RLS**, not only the client.
 
 | Part | Spec | Status |
 |---|---|---|
-| 00 | Foundations | **DONE** (branch) |
-| 01 | Scorer MVP (guest-friendly, no forced login) | **ACTIVE** |
-| 02 | Live game + live dashboard | Waiting |
-| 03 | Guest session + **Google Auth** | Waiting (shell exists) |
-| 05 | Roles + RLS + temp scorer URL | Waiting |
+| 00 | Foundations | **DONE** |
+| 01 | Scorer MVP (guest-friendly, no forced login) | **DONE** |
+| 02 | Live game + live dashboard | **DONE** (branch) |
+| 03 | Guest session + **Google Auth** (+ optional email magic link) | **DONE** (branch) |
+| 05 | Roles + RLS + temp scorer URL | **DONE** (branch) |
 | 06 | Leagues / teams / roster | Waiting |
 | 07 | Standings + KO engine | Waiting |
 | 08 | Internal games | Waiting |
 | 09 | Notes | Waiting |
 | 10+ | Box score, tournaments, zones, push… | Later |
 
-**One active product part at a time.** Do not start the next until DoD of the current part is met.
+**One active product part at a time.** Next open product slice: **Part 06 Leagues**.
 
 ## Working with Cursor + Claude + humans
 

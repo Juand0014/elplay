@@ -160,6 +160,16 @@ export default function HomeScreen() {
               </Pressable>
               <Pressable
                 accessibilityRole="button"
+                onPress={() => router.push('/live' as Href)}
+                style={({ pressed }) => [
+                  styles.googleHit,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <Text style={styles.googleHitText}>{t('home.watchLive')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
                 onPress={() => {
                   void onSignOut();
                 }}
@@ -201,6 +211,22 @@ export default function HomeScreen() {
                 )}
               </Pressable>
               <Text style={styles.supportMuted}>{t('home.googleHint')}</Text>
+
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push('/auth' as Href)}
+                style={styles.textAction}
+              >
+                <Text style={styles.textActionLabel}>{t('auth.emailCta')}</Text>
+              </Pressable>
+
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push('/live' as Href)}
+                style={styles.textAction}
+              >
+                <Text style={styles.textActionLabel}>{t('home.watchLive')}</Text>
+              </Pressable>
             </>
           )}
 

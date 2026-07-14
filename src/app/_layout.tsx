@@ -77,6 +77,9 @@ export default function RootLayout() {
           <Stack.Screen name="game/create" />
           <Stack.Screen name="scorer/[id]" />
           <Stack.Screen name="scorer/invite/[token]" />
+          <Stack.Screen name="live/index" />
+          <Stack.Screen name="live/[id]" />
+          <Stack.Screen name="auth/index" />
         </Stack>
       </ThemeProvider>
     </QueryClientProvider>
