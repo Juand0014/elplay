@@ -1,41 +1,19 @@
 # ElPlay Build Board
 
-- **People / 3rd parties:** assign work in **Trello** — see [TRELLO.md](TRELLO.md)
-- **Code:** GitHub PRs + CI
-- **Agents:** follow `MEMORY.md` active part; do not steal Trello “Doing — Partner/Contributor” cards
+**Trello (live):** https://trello.com/b/C6kNPrzX/elplay
 
-## Columns (mirror of Trello)
+- Humans / 3rd parties: assign on Trello  
+- Code: GitHub PRs  
+- Agents: MEMORY.md · do not steal Partner/Contributor Doing cards  
 
-Backlog → Spec Ready → Doing Owner → Doing Partner → Doing Contributor → Review → Blocked → Done
+## Active now
 
-## Part 00 — Foundations
-
-| Card / Issue | Owner | Status |
+| Card | List | Who |
 |---|---|---|
-| Spec 00 + app shell | Owner / Agents | Done on branch |
-| Confirm local setup | **Partner (Trello)** | Todo |
-| Entry UX redesign (diamond / guest+Google) | Owner / Agents | Done on branch |
+| Confirm `pnpm web` | Doing — Partner | Partner |
+| Polish scorer pad UX | Doing — Partner | Partner |
+| QA 2–3 innings | Doing — Partner | Partner / Owner |
+| Invite Partner to board | Doing — Owner | Owner |
+| Optional Supabase + Google | Doing — Owner | Owner |
 
-## Part 01 — Scorer MVP (**ACTIVE**)
-
-| Card | Owner | Status |
-|---|---|---|
-| Spec 01 | Owner | Done |
-| Engine + local store + pad UI | Owner / Agents | **Done on branch** |
-| Scorer pad UX polish | **Partner (Trello)** | Todo |
-| Supabase sync when env ready | Owner | Backlog |
-| QA 2–3 innings | Other person | Todo |
-
-## Part 03 — Guest + Google
-
-| Card | Owner | Status |
-|---|---|---|
-| Spec 03 | Owner | Spec Ready |
-| Supabase Google provider | Owner | Todo |
-| Auth/guest polish | **Partner (Trello)** | Backlog |
-
-## Rules
-
-- One active product part (`priority:now` on Trello)
-- One assignee per card
-- Multiple 3rd parties = multiple cards, never one card with unclear ownership
+Part 00 Foundations + Part 01 scorer core → **Done** on the board (shipped on `main`).
