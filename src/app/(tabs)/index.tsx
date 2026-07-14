@@ -104,7 +104,11 @@ export default function HomeScreen() {
             entering={FadeIn.duration(700)}
             style={[styles.diamondSlot, diamondStyle]}
           >
-            <DiamondMark size={diamondSize} />
+            <DiamondMark
+              size={diamondSize}
+              runnerJerseyNumber={7}
+              runnerLabel={t('home.runnerA11y')}
+            />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.delay(180).duration(650)}>

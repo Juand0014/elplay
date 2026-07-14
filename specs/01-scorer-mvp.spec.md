@@ -32,6 +32,7 @@ Indexes: `games(status)`, `plays(game_id, created_at)`.
 - Sports look (tokens only)
 - All labels via i18n Spanish
 - Block scoring when status is `done` or `ko`
+- **Diamond:** center displays the jersey number of the runner currently advancing (`runnerJerseyNumber`). Occupied bases show who is on 1B/2B/3B; the middle is reserved for the active runner in motion.
 
 ## Softbol rules (MVP)
 

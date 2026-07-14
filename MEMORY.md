@@ -111,5 +111,6 @@ Authorization lives in **RLS**, not only the client.
 - Primary: `#ff4d00` · Accent: `#ff8c00` · BG night field
 - Display: Bebas Neue · Body: Inter
 - Entry and live screens must feel like a **ballpark scoreboard**, not a SaaS dashboard
+- **Diamond rule:** the center of the infield diamond always shows the **jersey number of the player running** (`DiamondMark` `runnerJerseyNumber`). Bases hold occupancy; the middle is the active runner.
 - Thumb-first actions; one dominant CTA; Spanish copy only via i18n
 - Reference: [docs/brand/elplay_identity.html](docs/brand/elplay_identity.html)

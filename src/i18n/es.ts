@@ -17,6 +17,7 @@ export const es = {
     welcomeUser: 'Conectado con Google',
     signOut: 'Salir',
     continuePlay: 'Ir al diamante',
+    runnerA11y: 'Corredor en el diamante, número',
     googleNotConfigured:
       'Activa Google en Supabase para iniciar sesión (Parte 03).',
     googleError: 'No se pudo iniciar con Google',
