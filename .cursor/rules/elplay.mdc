@@ -20,6 +20,11 @@ Read `MEMORY.md` and `AGENTS.md` before coding.
 - Tokens in `src/theme/` — never hardcode colors/spacing
 - Follow `docs/ARCHITECTURE.md` boundaries
 
+## Access
+
+- Guest entry without registration is first-class
+- Primary auth is **Google** (Supabase OAuth); no email/password wall for MVP
+
 ## Domain
 
 - Game types: league | tournament | internal

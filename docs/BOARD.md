@@ -24,6 +24,15 @@ Backlog → Spec Ready → Doing Owner → Doing Partner → Review → Done
 | Invite token link | Owner | Backlog |
 | QA 2–3 innings | Whoever did not implement core | Backlog |
 
+## Part 03 — Guest + Google Auth (after Live)
+
+| Issue | Owner | Status |
+|---|---|---|
+| Spec 03 | Owner | Spec Ready (`specs/03-auth-guest-google.spec.md`) |
+| Home CTAs guest + Google (shell) | Owner / Agents | Done in Foundations follow-up |
+| Supabase Google provider + redirects | Owner | Todo (dashboard config) |
+| Polish sign-in / guest UX | **Partner** | Backlog |
+
 ## Rules
 
 - One active product part

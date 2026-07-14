@@ -59,16 +59,23 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for boundaries and scale rules.
 6. Tournament may exist without league; game may exist without tournament
 7. Batting stats AVG/OBP/SLG/OPS show `.---` when AB = 0
 
+## Access model (guest + Google)
+
+- **Guest is first-class:** anyone can enter without registering — view live, use scorer invite links, and (Part 01) create/score quick games.
+- **Primary auth = Google** via Supabase OAuth (no email/password wall for MVP).
+- Guest cannot become league leader / captain until they sign in with Google (Part 05 roles).
+- Optional later: Apple Sign-In, email magic link — not MVP.
+
 ## Roles (product)
 
 | Role | Can |
 |---|---|
-| Public | View live / live dashboard |
+| Guest / Public | Enter without account; view live; score via invite / quick game |
 | Temporary scorer | Score one game via invite URL (session) |
-| Assigned scorer | Score assigned games |
+| Assigned scorer | Score assigned games (needs account) |
 | Player | Team views / own stats |
-| Team captain | Roster, internal games, invite scorers |
-| League leader | League config, KO rules, teams, schedule |
+| Team captain | Roster, internal games, invite scorers (Google account) |
+| League leader | League config, KO rules, teams, schedule (Google account) |
 
 Authorization lives in **RLS**, not only the client.
 
@@ -77,10 +84,10 @@ Authorization lives in **RLS**, not only the client.
 | Part | Spec | Status |
 |---|---|---|
 | 00 | Foundations | **ACTIVE** |
-| 01 | Scorer MVP (no auth) | Next |
+| 01 | Scorer MVP (guest-friendly, no forced login) | Next |
 | 02 | Live game + live dashboard | Waiting |
-| 03 | Email auth | Waiting |
-| 04 | OAuth | Waiting |
+| 03 | Guest session + **Google Auth** | Waiting |
+| 04 | *(removed — Google is primary; no separate email-first part)* | — |
 | 05 | Roles + RLS | Waiting |
 | 06 | Leagues / teams / roster | Waiting |
 | 07 | Standings + KO engine | Waiting |

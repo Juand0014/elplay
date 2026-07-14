@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
+import { useAuthBootstrap } from '@/features/auth';
 import { createQueryClient } from '@/lib/query';
 import { colors } from '@/theme';
 
@@ -35,6 +36,11 @@ const navigationTheme = {
     notification: colors.primary,
   },
 };
+
+function AuthBootstrap() {
+  useAuthBootstrap();
+  return null;
+}
 
 export default function RootLayout() {
   const [queryClient] = useState(() => createQueryClient());
@@ -59,8 +65,14 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={navigationTheme}>
+        <AuthBootstrap />
         <StatusBar style="light" />
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.bg },
+          }}
+        >
           <Stack.Screen name="(tabs)" />
         </Stack>
       </ThemeProvider>

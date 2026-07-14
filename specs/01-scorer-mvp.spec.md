@@ -1,4 +1,4 @@
-# Spec 01 — Scorer MVP (no auth)
+# Spec 01 — Scorer MVP (guest-friendly)
 
 **Part:** 01  
 **Status:** Next (do not implement until Part 00 DoD is green)  
@@ -6,7 +6,7 @@
 
 ## Goal
 
-Let someone create a quick game between two teams (names as text), score runs / outs / balls / strikes / base occupancy, advance half-innings, keep a short play-by-play, persist to Supabase, and share a **temporary scorer invite link** — **without login**.
+Let someone create a quick game between two teams (names as text), score runs / outs / balls / strikes / base occupancy, advance half-innings, keep a short play-by-play, persist to Supabase, and share a **temporary scorer invite link** — as a **guest**, with **no forced registration**. Google sign-in is optional and lands in Part 03.
 
 ## User flow
 
@@ -41,7 +41,8 @@ Indexes: `games(status)`, `plays(game_id, created_at)`.
 
 ## Out of scope
 
-- OAuth, roles matrix, standings, roster IDs, tournaments, public live list (Part 02)
+- Google OAuth / account linking (Part 03)
+- Roles matrix, standings, roster IDs, tournaments, public live list (Part 02)
 
 ## Split
 
